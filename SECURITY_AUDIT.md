@@ -1,14 +1,14 @@
 # Security & Dependency Audit
 
-| | |
-|---|---|
-| **Project** | `frontend-starter` — Vite + React + TypeScript starter template |
-| **Repository** | <https://github.com/LaNguAx/frontend-starter> |
-| **Audit date** | 2026-08-17 |
-| **Document revision** | 3 (2026-08-17) — see [Revision history](#revision-history) |
-| **Scope** | All 32 direct dependencies at their exact pinned versions, the resolved transitive tree (304 packages), and the 2025–2026 npm supply-chain threat landscape |
-| **Method** | 7 parallel Claude Opus 5 audit agents (285 verification actions), cross-checked against the npm registry, OSV.dev/GHSA, vendor IOC datasets, and upstream changelogs/tarball diffs |
-| **Environment** | Node.js v24.12.0 (LTS) · npm 11.12.1 · Windows 11 Pro |
+|                       |                                                                                                                                                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Project**           | `frontend-starter` — Vite + React + TypeScript starter template                                                                                                                    |
+| **Repository**        | <https://github.com/LaNguAx/frontend-starter>                                                                                                                                      |
+| **Audit date**        | 2026-08-17                                                                                                                                                                         |
+| **Document revision** | 3 (2026-08-17) — see [Revision history](#revision-history)                                                                                                                         |
+| **Scope**             | All 32 direct dependencies at their exact pinned versions, the resolved transitive tree (304 packages), and the 2025–2026 npm supply-chain threat landscape                        |
+| **Method**            | 7 parallel Claude Opus 5 audit agents (285 verification actions), cross-checked against the npm registry, OSV.dev/GHSA, vendor IOC datasets, and upstream changelogs/tarball diffs |
+| **Environment**       | Node.js v24.12.0 (LTS) · npm 11.12.1 · Windows 11 Pro                                                                                                                              |
 
 ---
 
@@ -16,7 +16,7 @@
 
 **All 32 pinned dependency versions are approved for production use: 12 clean approvals, 20 approvals with recorded caveats, 0 holds.**
 
-- **Zero advisory hits.** Every `package@version` pair was queried individually against OSV.dev (which aggregates GitHub Security Advisories and the OpenSSF `MAL-*` malicious-package feed) and exact-matched against three vendor IOC datasets from the 2025–2026 npm attack waves. No pinned version — and no *package name* in this list, at any version in its history — has ever carried a malicious-code advisory. The check harness was validated with nine known-bad positive controls, so the clean result is evidenced, not assumed.
+- **Zero advisory hits.** Every `package@version` pair was queried individually against OSV.dev (which aggregates GitHub Security Advisories and the OpenSSF `MAL-*` malicious-package feed) and exact-matched against three vendor IOC datasets from the 2025–2026 npm attack waves. No pinned version — and no _package name_ in this list, at any version in its history — has ever carried a malicious-code advisory. The check harness was validated with nine known-bad positive controls, so the clean result is evidenced, not assumed.
 - **Two pins are security floors.** `react-router@8.3.0` and `vitest@4.1.10` are themselves the patched releases for a High and a Critical advisory respectively. They must never be downgraded (§5.2).
 - **The transitive tree is verified and locked.** `package-lock.json` pins all 304 resolved packages; `npm audit` reports 0 vulnerabilities across the full tree; `npm audit signatures` verifies registry signatures for 304/304 packages and SLSA provenance attestations for 114.
 - **One package executes code at install time.** `msw` has a `postinstall` hook; it was extracted and read line-by-line and is benign (§7, msw entry).
@@ -28,25 +28,25 @@
 
 ### 2.1 Stack composition
 
-| Layer | Choice | Version |
-|---|---|---|
-| Build tool / dev server | Vite (Rolldown-based v8 line) | 8.2.1 |
-| UI library | React + React DOM | 19.2.8 |
-| Language | TypeScript (6.0 bridge line — see §2.3) | 6.0.3 |
-| State management | Redux Toolkit (includes RTK Query for server state) + React-Redux | 2.12.0 / 9.3.0 |
-| Routing | React Router | 8.3.0 |
-| Validation | Zod | 4.4.3 |
-| Dates | date-fns | 4.4.0 |
-| Internationalization | i18next + react-i18next + browser language detector | 26.3.6 / 17.0.11 / 8.2.1 |
-| Styling | Tailwind CSS v4 (CSS-first config) via first-party Vite plugin | 4.3.3 |
-| Class utilities | clsx + tailwind-merge | 2.1.1 / 3.6.0 |
-| Test runner | Vitest | 4.1.10 |
-| Component testing | Testing Library (react + dom) on jsdom | 16.3.2 / 10.4.1 / 30.0.1 |
-| API mocking | Mock Service Worker (MSW) | 2.15.0 |
-| Linting | ESLint 10 (flat config) + typescript-eslint + react-hooks + react-refresh + @eslint/js + globals | 10.8.1 / 8.65.0 / 7.1.1 / 0.5.4 / 10.0.1 / 17.7.0 |
-| Formatting | Prettier | 3.9.6 |
-| React plugin | @vitejs/plugin-react | 6.0.5 |
-| Type declarations | @types/node · @types/react · @types/react-dom | 24.13.3 / 19.2.18 / 19.2.4 |
+| Layer                   | Choice                                                                                           | Version                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------- |
+| Build tool / dev server | Vite (Rolldown-based v8 line)                                                                    | 8.2.1                                             |
+| UI library              | React + React DOM                                                                                | 19.2.8                                            |
+| Language                | TypeScript (6.0 bridge line — see §2.3)                                                          | 6.0.3                                             |
+| State management        | Redux Toolkit (includes RTK Query for server state) + React-Redux                                | 2.12.0 / 9.3.0                                    |
+| Routing                 | React Router                                                                                     | 8.3.0                                             |
+| Validation              | Zod                                                                                              | 4.4.3                                             |
+| Dates                   | date-fns                                                                                         | 4.4.0                                             |
+| Internationalization    | i18next + react-i18next + browser language detector                                              | 26.3.6 / 17.0.11 / 8.2.1                          |
+| Styling                 | Tailwind CSS v4 (CSS-first config) via first-party Vite plugin                                   | 4.3.3                                             |
+| Class utilities         | clsx + tailwind-merge                                                                            | 2.1.1 / 3.6.0                                     |
+| Test runner             | Vitest                                                                                           | 4.1.10                                            |
+| Component testing       | Testing Library (react + dom) on jsdom                                                           | 16.3.2 / 10.4.1 / 30.0.1                          |
+| API mocking             | Mock Service Worker (MSW)                                                                        | 2.15.0                                            |
+| Linting                 | ESLint 10 (flat config) + typescript-eslint + react-hooks + react-refresh + @eslint/js + globals | 10.8.1 / 8.65.0 / 7.1.1 / 0.5.4 / 10.0.1 / 17.7.0 |
+| Formatting              | Prettier                                                                                         | 3.9.6                                             |
+| React plugin            | @vitejs/plugin-react                                                                             | 6.0.5                                             |
+| Type declarations       | @types/node · @types/react · @types/react-dom                                                    | 24.13.3 / 19.2.18 / 19.2.4                        |
 
 ### 2.2 Deliberate stack decisions
 
@@ -66,7 +66,7 @@ The pinned `typescript@6.0.3` is deliberately one generation behind the registry
 
 ### 3.1 Policy
 
-1. **Exact pins in `package.json`** — no `^`/`~` range operators. Rationale: nearly every malicious release in the 2025–2026 npm attack waves shipped as a *patch* bump on a trusted package (`debug@4.4.2`, `eslint-config-prettier@10.1.7`, `chalk@5.6.1`), which is precisely the digit that range operators float.
+1. **Exact pins in `package.json`** — no `^`/`~` range operators. Rationale: nearly every malicious release in the 2025–2026 npm attack waves shipped as a _patch_ bump on a trusted package (`debug@4.4.2`, `eslint-config-prettier@10.1.7`, `chalk@5.6.1`), which is precisely the digit that range operators float.
 2. **`.npmrc` → `save-exact=true`** — every future `npm install <pkg>` records an exact version automatically.
 3. **Committed `package-lock.json`, installs via `npm ci`** — extends pinning to all 304 transitive packages with integrity hashes; `npm ci` refuses to run if lock and manifest disagree.
 4. **Upgrades are deliberate events** — check `npm outdated`, review the changelog of the exact new version, re-run advisory checks, re-pin, commit. If the repository adopts Renovate/Dependabot, configure minor-level updates only (e.g. Renovate `matchUpdateTypes: ["minor"]`) so upgrades arrive as reviewable PRs.
@@ -75,12 +75,12 @@ The pinned `typescript@6.0.3` is deliberately one generation behind the registry
 
 Verified against the registry on the audit date:
 
-| Package | Pinned | Registry latest | Reason |
-|---|---|---|---|
-| `typescript` | 6.0.3 | 7.0.2 | Bridge-line decision (§2.3) |
-| `@types/node` | 24.13.3 | 26.2.0 | Types track Node majors; project targets Node 24 LTS |
-| `typescript-eslint` | 8.65.0 | 8.67.0 | Audited scaffold version; two-minor gap, no advisories |
-| `globals` | 17.7.0 | 17.11.0 | Audited scaffold version; data-only package, minor gap |
+| Package             | Pinned  | Registry latest | Reason                                                 |
+| ------------------- | ------- | --------------- | ------------------------------------------------------ |
+| `typescript`        | 6.0.3   | 7.0.2           | Bridge-line decision (§2.3)                            |
+| `@types/node`       | 24.13.3 | 26.2.0          | Types track Node majors; project targets Node 24 LTS   |
+| `typescript-eslint` | 8.65.0  | 8.67.0          | Audited scaffold version; two-minor gap, no advisories |
+| `globals`           | 17.7.0  | 17.11.0         | Audited scaffold version; data-only package, minor gap |
 
 All 28 other pins were the registry `latest` at audit time. The last two rows are candidates for the deliberate minor-bump workflow.
 
@@ -107,23 +107,23 @@ Post-install, the resolved tree was verified: `npm ls` (32/32 direct deps at pin
 
 ### 5.1 Verdict summary
 
-| Verdict | Count | Meaning |
-|---|---|---|
-| ✅ Approve | 12 | No concerns worth a caveat |
-| 🟡 Approve with notes | 20 | Safe to use; caveat recorded below |
-| ⛔ Hold | 0 | — |
+| Verdict               | Count | Meaning                            |
+| --------------------- | ----- | ---------------------------------- |
+| ✅ Approve            | 12    | No concerns worth a caveat         |
+| 🟡 Approve with notes | 20    | Safe to use; caveat recorded below |
+| ⛔ Hold               | 0     | —                                  |
 
 ### 5.2 Security floors — do not downgrade
 
-| Package | Floor | Advisory fixed by this version |
-|---|---|---|
-| `react-router` | **8.3.0** | GHSA-qwww-vcr4-c8h2 — RSC-mode CSRF bypass, High, CVSS 7.1. Affected: ≥8.0.0 <8.3.0 and ≥7.12.0 <7.18.2. Every 8.x below 8.3.0 is vulnerable. |
-| `vitest` | **4.1.10** | CVE-2026-73653 / GHSA-p63j-vcc4-9vmv — Browser Mode file-access permission-gate bypass, Critical, CVSS 9.4 (`@vitest/browser` ≤4.1.9). |
+| Package        | Floor      | Advisory fixed by this version                                                                                                                |
+| -------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `react-router` | **8.3.0**  | GHSA-qwww-vcr4-c8h2 — RSC-mode CSRF bypass, High, CVSS 7.1. Affected: ≥8.0.0 <8.3.0 and ≥7.12.0 <7.18.2. Every 8.x below 8.3.0 is vulnerable. |
+| `vitest`       | **4.1.10** | CVE-2026-73653 / GHSA-p63j-vcc4-9vmv — Browser Mode file-access permission-gate bypass, Critical, CVSS 9.4 (`@vitest/browser` ≤4.1.9).        |
 
 ### 5.3 Advisory clearance — clarifications
 
 - **32/32 pinned versions clean; 32/32 package names have never carried a malicious-code (`MAL-*`) advisory.**
-- "No advisory at the pinned version" ≠ "no CVEs ever": several names carry ordinary vulnerabilities at *other* versions — `vite` (22 GHSAs, incl. the 2026 dev-server advisories CVE-2026-39363/-39364/-39365 and CVE-2026-53571, all patched below 8.2.x), `react-router` (20), `vitest` (2), `react` (2), `react-dom` (1), `zod` (1: CVE-2026-6991, ≤4.3.6), `i18next` (2, incl. CVE-2026-63402 prototype pollution, ≤26.3.3). **None affects the pinned versions.** The other 25 names have no advisories at any version.
+- "No advisory at the pinned version" ≠ "no CVEs ever": several names carry ordinary vulnerabilities at _other_ versions — `vite` (22 GHSAs, incl. the 2026 dev-server advisories CVE-2026-39363/-39364/-39365 and CVE-2026-53571, all patched below 8.2.x), `react-router` (20), `vitest` (2), `react` (2), `react-dom` (1), `zod` (1: CVE-2026-6991, ≤4.3.6), `i18next` (2, incl. CVE-2026-63402 prototype pollution, ≤26.3.3). **None affects the pinned versions.** The other 25 names have no advisories at any version.
 - **React2Shell (CVE-2025-55182, Critical RCE) does not apply**: it affects the React Server Components payload packages (`react-server-dom-webpack`/`-turbopack`/`-parcel`), not `react`/`react-dom` client rendering in a Vite SPA. Same for the related DoS advisories CVE-2025-55184 and CVE-2026-23869.
 - The only advisory ever filed against `eslint` itself (CVE-2025-50537, RuleTester) was withdrawn on 2026-02-03.
 
@@ -131,12 +131,12 @@ Post-install, the resolved tree was verified: `npm ls` (32/32 direct deps at pin
 
 Four release patterns matched classic compromise signatures; each was verified benign through artifact-level evidence:
 
-| Package | Anomaly | Clearance |
-|---|---|---|
-| `date-fns@4.4.0` | ~20-month dormancy, then 4 releases in 11 days | Package *shrank* 21.3 MB → 10.9 MB (CDN builds extracted to `@date-fns/cdn`); zero deps; no `scripts` field at all |
-| `react-redux@9.3.0` | 17-month gap since 9.2.0 | Coordinated same-day Redux release (64 min after RTK 2.12.0); diff is a single `connect` deprecation marker (+5.5 KB); release *restored* OIDC trusted publishing that 9.2.0 lacked |
-| `react-i18next@17.0.11` | `<Trans>` parser dep `html-parse-stringify` revived after 5 years dormancy under a new repo/publisher, 6 min before this release | Publicly documented handover to the i18next org; original owners retained; no install hooks anywhere in the chain |
-| `@testing-library/dom@10.4.1` | No provenance, 370-day gap, Sunday publish via shared bot token | Dependency diff exactly matches changelog (chalk → picocolors); tarball shrank; 386 days of high-volume exposure since, zero advisories |
+| Package                       | Anomaly                                                                                                                          | Clearance                                                                                                                                                                           |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `date-fns@4.4.0`              | ~20-month dormancy, then 4 releases in 11 days                                                                                   | Package _shrank_ 21.3 MB → 10.9 MB (CDN builds extracted to `@date-fns/cdn`); zero deps; no `scripts` field at all                                                                  |
+| `react-redux@9.3.0`           | 17-month gap since 9.2.0                                                                                                         | Coordinated same-day Redux release (64 min after RTK 2.12.0); diff is a single `connect` deprecation marker (+5.5 KB); release _restored_ OIDC trusted publishing that 9.2.0 lacked |
+| `react-i18next@17.0.11`       | `<Trans>` parser dep `html-parse-stringify` revived after 5 years dormancy under a new repo/publisher, 6 min before this release | Publicly documented handover to the i18next org; original owners retained; no install hooks anywhere in the chain                                                                   |
+| `@testing-library/dom@10.4.1` | No provenance, 370-day gap, Sunday publish via shared bot token                                                                  | Dependency diff exactly matches changelog (chalk → picocolors); tarball shrank; 386 days of high-volume exposure since, zero advisories                                             |
 
 ### 5.5 Install-time execution surface
 
@@ -152,40 +152,40 @@ Four release patterns matched classic compromise signatures; each was verified b
 
 Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attestation on the pinned release.
 
-| Package | Version | Type | Released | Age (d) | Publisher | Prov. | Verdict |
-|---|---|---|---|---|---|---|---|
-| `react` | 19.2.8 | runtime | 2026-07-21 | 27 | Meta (react-bot, OIDC) | ✅ | 🟡 |
-| `react-dom` | 19.2.8 | runtime | 2026-07-21 | 27 | Meta (react-bot, OIDC) | ✅ | 🟡 |
-| `@reduxjs/toolkit` | 2.12.0 | runtime | 2026-05-15 | 94 | Redux team (6 maintainers, OIDC) | ✅ | 🟡 |
-| `react-redux` | 9.3.0 | runtime | 2026-05-15 | 94 | Redux team (5 maintainers, OIDC) | ✅ | 🟡 |
-| `react-router` | 8.3.0 | runtime | 2026-07-22 | 26 | Remix/Shopify (2 maintainers, OIDC) | ✅ | 🟡 |
-| `zod` | 4.4.3 | runtime | 2026-05-04 | 105 | colinhacks (solo, OIDC) | ✅ | 🟡 |
-| `date-fns` | 4.4.0 | runtime | 2026-05-29 | 80 | kossnocorp (solo) | — | 🟡 |
-| `i18next` | 26.3.6 | runtime | 2026-07-09 | 39 | i18next org (adrai, jamuhl) | — | ✅ |
-| `react-i18next` | 17.0.11 | runtime | 2026-07-22 | 26 | i18next org (adrai, jamuhl) | — | 🟡 |
-| `i18next-browser-languagedetector` | 8.2.1 | runtime | 2026-02-12 | 186 | i18next org (adrai, jamuhl) | — | ✅ |
-| `clsx` | 2.1.1 | runtime | 2024-04-23 | 846 | lukeed (solo) | — | 🟡 |
-| `tailwind-merge` | 3.6.0 | runtime | 2026-05-10 | 99 | dcastil (solo, OIDC) | ✅ | 🟡 |
-| `vite` | 8.2.1 | dev | 2026-08-06 | 11 | VoidZero (Evan You + vitebot, OIDC) | ✅ | 🟡 |
-| `@vitejs/plugin-react` | 6.0.5 | dev | 2026-07-30 | 18 | VoidZero (OIDC) | ✅ | ✅ |
-| `typescript` | 6.0.3 | dev | 2026-04-16 | 123 | Microsoft (typescript-bot token) | — | 🟡 |
-| `tailwindcss` | 4.3.3 | dev | 2026-07-16 | 32 | Tailwind Labs (3 maintainers) | ✅ | ✅ |
-| `@tailwindcss/vite` | 4.3.3 | dev | 2026-07-16 | 32 | Tailwind Labs (3 maintainers) | ✅ | ✅ |
-| `prettier` | 3.9.6 | dev | 2026-07-21 | 27 | Prettier org (11 maintainers) | — | 🟡 |
-| `vitest` | 4.1.10 | dev | 2026-07-06 | 42 | Vitest team / VoidZero (5 maintainers, OIDC) | ✅ | 🟡 |
-| `msw` | 2.15.0 | dev | 2026-07-08 | 40 | kettanaito (solo, OIDC) | ✅ | 🟡 |
-| `jsdom` | 30.0.1 | dev | 2026-07-29 | 19 | jsdom org (6 maintainers, OIDC) | ✅ | 🟡 |
-| `@testing-library/react` | 16.3.2 | dev | 2026-01-19 | 210 | Testing Library org (17 maintainers, OIDC) | ✅ | ✅ |
-| `@testing-library/dom` | 10.4.1 | dev | 2025-07-27 | 386 | Testing Library org (bot token) | — | 🟡 |
-| `eslint` | 10.8.1 | dev | 2026-08-07 | 10 | OpenJS Foundation (eslintbot token) | — | 🟡 |
-| `@eslint/js` | 10.0.1 | dev | 2026-02-06 | 192 | OpenJS Foundation (eslintbot token) | — | ✅ |
-| `typescript-eslint` | 8.65.0 | dev | 2026-07-20 | 28 | typescript-eslint (2 maintainers, OIDC) | ✅ | ✅ |
-| `eslint-plugin-react-hooks` | 7.1.1 | dev | 2026-04-17 | 122 | Meta (react-bot token) | — | 🟡 |
-| `eslint-plugin-react-refresh` | 0.5.4 | dev | 2026-08-10 | 7 | arnaud-barre (solo, OIDC) | ✅ | 🟡 |
-| `globals` | 17.7.0 | dev | 2026-06-22 | 56 | sindresorhus + 3 maintainers | — | ✅ |
-| `@types/node` | 24.13.3 | dev | 2026-07-08 | 40 | DefinitelyTyped (Microsoft bot) | — | ✅ |
-| `@types/react` | 19.2.18 | dev | 2026-07-30 | 18 | DefinitelyTyped (Microsoft bot) | — | ✅ |
-| `@types/react-dom` | 19.2.4 | dev | 2026-07-30 | 18 | DefinitelyTyped (Microsoft bot) | — | ✅ |
+| Package                            | Version | Type    | Released   | Age (d) | Publisher                                    | Prov. | Verdict |
+| ---------------------------------- | ------- | ------- | ---------- | ------- | -------------------------------------------- | ----- | ------- |
+| `react`                            | 19.2.8  | runtime | 2026-07-21 | 27      | Meta (react-bot, OIDC)                       | ✅    | 🟡      |
+| `react-dom`                        | 19.2.8  | runtime | 2026-07-21 | 27      | Meta (react-bot, OIDC)                       | ✅    | 🟡      |
+| `@reduxjs/toolkit`                 | 2.12.0  | runtime | 2026-05-15 | 94      | Redux team (6 maintainers, OIDC)             | ✅    | 🟡      |
+| `react-redux`                      | 9.3.0   | runtime | 2026-05-15 | 94      | Redux team (5 maintainers, OIDC)             | ✅    | 🟡      |
+| `react-router`                     | 8.3.0   | runtime | 2026-07-22 | 26      | Remix/Shopify (2 maintainers, OIDC)          | ✅    | 🟡      |
+| `zod`                              | 4.4.3   | runtime | 2026-05-04 | 105     | colinhacks (solo, OIDC)                      | ✅    | 🟡      |
+| `date-fns`                         | 4.4.0   | runtime | 2026-05-29 | 80      | kossnocorp (solo)                            | —     | 🟡      |
+| `i18next`                          | 26.3.6  | runtime | 2026-07-09 | 39      | i18next org (adrai, jamuhl)                  | —     | ✅      |
+| `react-i18next`                    | 17.0.11 | runtime | 2026-07-22 | 26      | i18next org (adrai, jamuhl)                  | —     | 🟡      |
+| `i18next-browser-languagedetector` | 8.2.1   | runtime | 2026-02-12 | 186     | i18next org (adrai, jamuhl)                  | —     | ✅      |
+| `clsx`                             | 2.1.1   | runtime | 2024-04-23 | 846     | lukeed (solo)                                | —     | 🟡      |
+| `tailwind-merge`                   | 3.6.0   | runtime | 2026-05-10 | 99      | dcastil (solo, OIDC)                         | ✅    | 🟡      |
+| `vite`                             | 8.2.1   | dev     | 2026-08-06 | 11      | VoidZero (Evan You + vitebot, OIDC)          | ✅    | 🟡      |
+| `@vitejs/plugin-react`             | 6.0.5   | dev     | 2026-07-30 | 18      | VoidZero (OIDC)                              | ✅    | ✅      |
+| `typescript`                       | 6.0.3   | dev     | 2026-04-16 | 123     | Microsoft (typescript-bot token)             | —     | 🟡      |
+| `tailwindcss`                      | 4.3.3   | dev     | 2026-07-16 | 32      | Tailwind Labs (3 maintainers)                | ✅    | ✅      |
+| `@tailwindcss/vite`                | 4.3.3   | dev     | 2026-07-16 | 32      | Tailwind Labs (3 maintainers)                | ✅    | ✅      |
+| `prettier`                         | 3.9.6   | dev     | 2026-07-21 | 27      | Prettier org (11 maintainers)                | —     | 🟡      |
+| `vitest`                           | 4.1.10  | dev     | 2026-07-06 | 42      | Vitest team / VoidZero (5 maintainers, OIDC) | ✅    | 🟡      |
+| `msw`                              | 2.15.0  | dev     | 2026-07-08 | 40      | kettanaito (solo, OIDC)                      | ✅    | 🟡      |
+| `jsdom`                            | 30.0.1  | dev     | 2026-07-29 | 19      | jsdom org (6 maintainers, OIDC)              | ✅    | 🟡      |
+| `@testing-library/react`           | 16.3.2  | dev     | 2026-01-19 | 210     | Testing Library org (17 maintainers, OIDC)   | ✅    | ✅      |
+| `@testing-library/dom`             | 10.4.1  | dev     | 2025-07-27 | 386     | Testing Library org (bot token)              | —     | 🟡      |
+| `eslint`                           | 10.8.1  | dev     | 2026-08-07 | 10      | OpenJS Foundation (eslintbot token)          | —     | 🟡      |
+| `@eslint/js`                       | 10.0.1  | dev     | 2026-02-06 | 192     | OpenJS Foundation (eslintbot token)          | —     | ✅      |
+| `typescript-eslint`                | 8.65.0  | dev     | 2026-07-20 | 28      | typescript-eslint (2 maintainers, OIDC)      | ✅    | ✅      |
+| `eslint-plugin-react-hooks`        | 7.1.1   | dev     | 2026-04-17 | 122     | Meta (react-bot token)                       | —     | 🟡      |
+| `eslint-plugin-react-refresh`      | 0.5.4   | dev     | 2026-08-10 | 7       | arnaud-barre (solo, OIDC)                    | ✅    | 🟡      |
+| `globals`                          | 17.7.0  | dev     | 2026-06-22 | 56      | sindresorhus + 3 maintainers                 | —     | ✅      |
+| `@types/node`                      | 24.13.3 | dev     | 2026-07-08 | 40      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
+| `@types/react`                     | 19.2.18 | dev     | 2026-07-30 | 18      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
+| `@types/react-dom`                 | 19.2.4  | dev     | 2026-07-30 | 18      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
 
 ---
 
@@ -193,21 +193,21 @@ Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attest
 
 ### Runtime dependencies
 
-**`react@19.2.8` / `react-dom@19.2.8` — 🟡** Single-change patch (RSC decoding performance, PR #37087), versioned in lockstep; react has zero dependencies and no `scripts` field, react-dom's only dependency is `scheduler ^0.27.0`. Full SLSA provenance from `.github/workflows/runtime_release_from_ci.yml`; the react tarball is 6 bytes *smaller* than 19.2.7. Notes: the repository is now `react/react` — the legitimate October 2025 transfer to the React Foundation, not a hijack; and the React 19 train's serious 2025–2026 advisory history (incl. CVSS 10.0 CVE-2025-55182) lives entirely in the `react-server-dom-*` sibling packages, none of which lists `react`/`react-dom` as affected.
+**`react@19.2.8` / `react-dom@19.2.8` — 🟡** Single-change patch (RSC decoding performance, PR #37087), versioned in lockstep; react has zero dependencies and no `scripts` field, react-dom's only dependency is `scheduler ^0.27.0`. Full SLSA provenance from `.github/workflows/runtime_release_from_ci.yml`; the react tarball is 6 bytes _smaller_ than 19.2.7. Notes: the repository is now `react/react` — the legitimate October 2025 transfer to the React Foundation, not a hijack; and the React 19 train's serious 2025–2026 advisory history (incl. CVSS 10.0 CVE-2025-55182) lives entirely in the `react-server-dom-*` sibling packages, none of which lists `react`/`react-dom` as affected.
 
 **`@reduxjs/toolkit@2.12.0` — 🟡** OIDC-published with provenance, no install hooks, six maintainers, dependency set byte-identical to 2.11.2, and no advisory has ever been filed against it. Tarball diff fully explained: +13 Markdown files (a new `skills/` folder of AI-agent guidance now shipped in the package — a new but first-party, publicly announced surface), −93 test files, accounting exactly for the ~1 MB size drop. The 5-month release gap matches the project's own historical cadence.
 
-**`react-redux@9.3.0` — 🟡** The 17-month gap since 9.2.0 was investigated as a takeover signal and cleared (§5.4); the release is a cosmetic `connect` deprecation with unchanged dependencies, and it *restored* OIDC trusted publishing (9.2.0 had been a manual personal-token publish). Operational caveat: a package that can go 17 months between releases has a slow security-response cadence.
+**`react-redux@9.3.0` — 🟡** The 17-month gap since 9.2.0 was investigated as a takeover signal and cleared (§5.4); the release is a cosmetic `connect` deprecation with unchanged dependencies, and it _restored_ OIDC trusted publishing (9.2.0 had been a manual personal-token publish). Operational caveat: a package that can go 17 months between releases has a slow security-response cadence.
 
-**`react-router@8.3.0` — 🟡, security floor** This release *is* the fix for GHSA-qwww-vcr4-c8h2 (§5.2) and additionally moves session-ID generation to `crypto.randomUUID()`. Verified not affected by the July 2026 advisory cluster (CVE-2026-55685, -53666, -53667, -53668 — all confined to 7.x ranges). Caveats: the highest advisory velocity in this set (~10 advisories across 2025–2026, incl. a vendored-turbo-stream RCE, CVE-2026-42211) and the thinnest maintainer roster (2), offset by OIDC provenance publishing.
+**`react-router@8.3.0` — 🟡, security floor** This release _is_ the fix for GHSA-qwww-vcr4-c8h2 (§5.2) and additionally moves session-ID generation to `crypto.randomUUID()`. Verified not affected by the July 2026 advisory cluster (CVE-2026-55685, -53666, -53667, -53668 — all confined to 7.x ranges). Caveats: the highest advisory velocity in this set (~10 advisories across 2025–2026, incl. a vendored-turbo-stream RCE, CVE-2026-42211) and the thinnest maintainer roster (2), offset by OIDC provenance publishing.
 
 **`zod@4.4.3` — 🟡** 105 days old, zero runtime dependencies, no install hooks; verified diff is +3.3 KB of two documented regression fixes for 4.4.0. CVE-2026-6991 (Moderate, CUID handler) affects ≤4.3.6 only. Caveat: solo publisher (colinhacks) on a ~139M-weekly-download package — materially mitigated by OIDC trusted publishing with provenance, the control that blunts credential-theft takeover.
 
-**`date-fns@4.4.0` — 🟡** The most compromise-shaped release profile in the set, investigated in depth and cleared (§5.4): the artifact *shrank* by ~10 MB, has zero dependencies and no `scripts` field whatsoever, and no advisory exists against core date-fns at any version. Caveats: solo publisher (kossnocorp), no provenance attestation.
+**`date-fns@4.4.0` — 🟡** The most compromise-shaped release profile in the set, investigated in depth and cleared (§5.4): the artifact _shrank_ by ~10 MB, has zero dependencies and no `scripts` field whatsoever, and no advisory exists against core date-fns at any version. Caveats: solo publisher (kossnocorp), no provenance attestation.
 
 **`i18next@26.3.6` — ✅** Metadata-only release (+25 bytes: widens the optional `typescript` peer range to admit TS 7). Sits ahead of the only recent core advisory (CVE-2026-63402, prototype pollution, fixed in 26.3.4). Two long-standing org maintainers with verified publisher continuity. No provenance attestation (project has not adopted it).
 
-**`react-i18next@17.0.11` — 🟡** The `html-parse-stringify` dormant-revival pattern was investigated as a hijack signal and cleared — a documented, legitimate re-homing under the i18next org with original owners retained (§5.4). No consumer install hooks anywhere in the chain; no advisory affects this package (the historical CVE-2021-23346 ReDoS was in the *old* parser version, long superseded).
+**`react-i18next@17.0.11` — 🟡** The `html-parse-stringify` dormant-revival pattern was investigated as a hijack signal and cleared — a documented, legitimate re-homing under the i18next org with original owners retained (§5.4). No consumer install hooks anywhere in the chain; no advisory affects this package (the historical CVE-2021-23346 ReDoS was in the _old_ parser version, long superseded).
 
 **`i18next-browser-languagedetector@8.2.1` — ✅** Six months in the field, +320-byte types-only diff matching its one-line changelog, no advisories at any version, same org maintainers with verified publisher continuity.
 
@@ -219,13 +219,13 @@ Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attest
 
 **`vite@8.2.1` — 🟡** 11 days old at audit — the youngest core pin — so the diff was read in full: a routine weekly patch (7 fixes, each with a linked PR), no new dependencies (only `postcss`/`rolldown` range bumps), identical 36-file count, +11.5 KB. Full SLSA provenance traceable to the `v8.2.1` tag via `publish.yml`. All four 2026 vite dev-server advisories are patched well below 8.2.x.
 
-**`@vitejs/plugin-react@6.0.5` — ✅** Single-fix patch (React Compiler preset filter made linear), provenance-attested, one unchanged runtime dependency, tarball *shrank* 97 bytes. Advisory disambiguation verified: the advisories in the `vitejs/vite-plugin-react` repo affect the separate `@vitejs/plugin-rsc` package, not this one.
+**`@vitejs/plugin-react@6.0.5` — ✅** Single-fix patch (React Compiler preset filter made linear), provenance-attested, one unchanged runtime dependency, tarball _shrank_ 97 bytes. Advisory disambiguation verified: the advisories in the `vitejs/vite-plugin-react` repo affect the separate `@vitejs/plugin-rsc` package, not this one.
 
 **`typescript@6.0.3` — 🟡** 123-day-old Microsoft stabilization release; zero runtime dependencies, no install hooks, no advisories against the `typescript` package at any version, near-universal adoption since April. Caveats: **no provenance attestation** (published by the token-based `typescript-bot`, not OIDC), and the 6.0 line is a maintained generation behind 7.x — security fixes now land primarily on 7.x (§2.3).
 
 **`tailwindcss@4.3.3` / `@tailwindcss/vite@4.3.3` — ✅ / ✅** Lockstep monorepo releases published 31 seconds apart by Tailwind Labs, both provenance-attested, zero runtime dependencies (core) and a pinned three-dependency set (adapter), no install scripts, no advisories at any version, weekday-only release cadence. Core's 14 documented fixes account for a +9.5 KB delta; the adapter's single fix for +328 bytes.
 
-**`prettier@3.9.6` — 🟡** Three small documented formatter changes, zero runtime dependencies, no `scripts` field, +2.7 KB at identical file count. Caveats: **no provenance attestation** (registry endpoint 404s); and the Prettier *ecosystem* has real incident history — the July 2025 phishing compromise (CVE-2025-54313) hit `eslint-config-prettier`/`eslint-plugin-prettier`, though never the core `prettier` package (§8.1).
+**`prettier@3.9.6` — 🟡** Three small documented formatter changes, zero runtime dependencies, no `scripts` field, +2.7 KB at identical file count. Caveats: **no provenance attestation** (registry endpoint 404s); and the Prettier _ecosystem_ has real incident history — the July 2025 phishing compromise (CVE-2025-54313) hit `eslint-config-prettier`/`eslint-plugin-prettier`, though never the core `prettier` package (§8.1).
 
 **`vitest@4.1.10` — 🟡, security floor** The coordinated embargoed fix release for CVE-2026-73653 (§5.2), shipped in an 18-minute window alongside 3.2.7 and 5.0.0-beta.6 two days before disclosure. Provenance-attested OIDC publish with a human approver gate; diff is minimal (+183 bytes, internal version bumps only). Caveat: the 4.x line has absorbed four critical browser/UI advisories in its lifetime — keep current within the line.
 
@@ -235,7 +235,7 @@ Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attest
 
 **`@testing-library/react@16.3.2` — ✅** 210-day-old release whose entire change is one TypeScript type fix (+1 byte, identical dependencies). Provenance-attested OIDC publish, 17-maintainer org, no advisory at any version. Requires `@testing-library/dom` as an explicit peer — satisfied in this manifest.
 
-**`@testing-library/dom@10.4.1` — 🟡** Three stacked anomalies (no provenance, 370-day gap, Sunday bot-token publish) individually investigated and cleared (§5.4); the release replaces `chalk ^4.1.0` with exact-pinned `picocolors 1.1.1` — a supply-chain *hardening* change, verified in the registry dependency diff. 386 days of exposure since, zero advisories.
+**`@testing-library/dom@10.4.1` — 🟡** Three stacked anomalies (no provenance, 370-day gap, Sunday bot-token publish) individually investigated and cleared (§5.4); the release replaces `chalk ^4.1.0` with exact-pinned `picocolors 1.1.1` — a supply-chain _hardening_ change, verified in the registry dependency diff. 386 days of exposure since, zero advisories.
 
 **`eslint@10.8.1` — 🟡** 10 days old at audit, so the full 705-line tarball diff was read: it maps 1:1 onto the five rule fixes in the release notes; runtime dependencies byte-identical to 10.8.0. OpenJS Foundation institutional ownership with a biweekly cadence. Notes: no provenance attestation (eslintbot token publishing); its only-ever advisory was withdrawn (§5.3).
 
@@ -259,25 +259,25 @@ Every incident below was checked against this project's 32 `package@version` pai
 
 ### 8.1 Incident register
 
-| Date | Incident | Vector | Key malicious versions | Relevance to this stack |
-|---|---|---|---|---|
-| 2025-07-18 | ESLint/Prettier tooling phish (`npnjs.com`, CVE-2025-54313) | Maintainer phishing → token theft | `eslint-config-prettier@10.1.6/.7` + 4 packages | Core `prettier`/`eslint` never affected. This project deliberately omits `eslint-config-prettier`; if ever added, require ≥10.1.8 |
-| 2025-09-08 | chalk/debug "Qix" incident (`npmjs.help` phish) | Maintainer phishing; payload in bundle, **no install script** | `debug@4.4.2`, `chalk@5.6.1` + 17 more (~2.6B weekly downloads) | **Was transitively reachable**: `eslint` declares `debug ^4.3.2`; an unlocked install in the ~2h window would have resolved 4.4.2. Now blocked by the committed lockfile |
-| 2025-09-15 | Shai-Hulud 1.0 worm | Install-hook credential harvesting, self-propagation | `@ctrl/tinycolor@4.1.1/.2` + ~200 packages | No overlap |
-| 2025-11-21 | Shai-Hulud 2.0 ("Second Coming") — largest npm event to date | `preinstall` hook, runner persistence | 796 backdoored packages (Zapier, ENS, PostHog, Postman scopes) | Zero name matches; nearest misses are name-adjacent only (`@ensdomains/vite-plugin-i18next-loader`, `@lui-ui/lui-tailwindcss`, `okta-react-router-6`) |
-| 2026-03-31 | `axios` account takeover (UNC1069 / Sapphire Sleet) | Token theft; RAT via planted dependency | `axios@1.14.1`, `@0.30.4` | axios absent from this tree |
-| 2026-04-22 | Shai-Hulud "Third Coming" (Bitwarden CLI) | Poisoned GitHub Actions workflow; targeted AI-tool credentials | `@bitwarden/cli@2026.4.0` | No overlap |
-| 2026-05-11 | TanStack pipeline hijack | CI compromise; **first malware with valid SLSA Build L3 provenance** | 42 `@tanstack/*` packages, 373 versions | No TanStack in this stack (RTK Query chosen instead); constrains how much weight provenance can carry (§10) |
-| 2026-05-21 | `xuxingfeng` typosquat campaign (2 years undetected) | Typosquats of Vite plugins | `vite-plugin-react-extend@1.0.4` (lure for `@vitejs/plugin-react`) | Exact scoped name `@vitejs/plugin-react` verified in manifest |
-| 2026-06-29 → 07-03 | ViteVenom (PolinRider) | **Scoped** typosquats of the `@vitejs/*` namespace; blockchain C2 | `@vitets/vite-ts` + 6 more | Highest-relevance pattern for a Vite project: one transposed character from the real scope. Defeats the "scoped = safe" heuristic |
-| 2026-08-04 | `keyv`/`cacheable` worm (most recent; still settling) | GitHub account hijack → `preinstall` hook, smart-contract C2 | `keyv@6.0.0` + 400+ packages | Not in tree — verified by reading the dependency manifests of `vitest`, `msw`, `jsdom`, `@testing-library/dom`, `vite`, `eslint`: none declares keyv/cacheable |
+| Date               | Incident                                                     | Vector                                                               | Key malicious versions                                             | Relevance to this stack                                                                                                                                                  |
+| ------------------ | ------------------------------------------------------------ | -------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2025-07-18         | ESLint/Prettier tooling phish (`npnjs.com`, CVE-2025-54313)  | Maintainer phishing → token theft                                    | `eslint-config-prettier@10.1.6/.7` + 4 packages                    | Core `prettier`/`eslint` never affected. This project deliberately omits `eslint-config-prettier`; if ever added, require ≥10.1.8                                        |
+| 2025-09-08         | chalk/debug "Qix" incident (`npmjs.help` phish)              | Maintainer phishing; payload in bundle, **no install script**        | `debug@4.4.2`, `chalk@5.6.1` + 17 more (~2.6B weekly downloads)    | **Was transitively reachable**: `eslint` declares `debug ^4.3.2`; an unlocked install in the ~2h window would have resolved 4.4.2. Now blocked by the committed lockfile |
+| 2025-09-15         | Shai-Hulud 1.0 worm                                          | Install-hook credential harvesting, self-propagation                 | `@ctrl/tinycolor@4.1.1/.2` + ~200 packages                         | No overlap                                                                                                                                                               |
+| 2025-11-21         | Shai-Hulud 2.0 ("Second Coming") — largest npm event to date | `preinstall` hook, runner persistence                                | 796 backdoored packages (Zapier, ENS, PostHog, Postman scopes)     | Zero name matches; nearest misses are name-adjacent only (`@ensdomains/vite-plugin-i18next-loader`, `@lui-ui/lui-tailwindcss`, `okta-react-router-6`)                    |
+| 2026-03-31         | `axios` account takeover (UNC1069 / Sapphire Sleet)          | Token theft; RAT via planted dependency                              | `axios@1.14.1`, `@0.30.4`                                          | axios absent from this tree                                                                                                                                              |
+| 2026-04-22         | Shai-Hulud "Third Coming" (Bitwarden CLI)                    | Poisoned GitHub Actions workflow; targeted AI-tool credentials       | `@bitwarden/cli@2026.4.0`                                          | No overlap                                                                                                                                                               |
+| 2026-05-11         | TanStack pipeline hijack                                     | CI compromise; **first malware with valid SLSA Build L3 provenance** | 42 `@tanstack/*` packages, 373 versions                            | No TanStack in this stack (RTK Query chosen instead); constrains how much weight provenance can carry (§10)                                                              |
+| 2026-05-21         | `xuxingfeng` typosquat campaign (2 years undetected)         | Typosquats of Vite plugins                                           | `vite-plugin-react-extend@1.0.4` (lure for `@vitejs/plugin-react`) | Exact scoped name `@vitejs/plugin-react` verified in manifest                                                                                                            |
+| 2026-06-29 → 07-03 | ViteVenom (PolinRider)                                       | **Scoped** typosquats of the `@vitejs/*` namespace; blockchain C2    | `@vitets/vite-ts` + 6 more                                         | Highest-relevance pattern for a Vite project: one transposed character from the real scope. Defeats the "scoped = safe" heuristic                                        |
+| 2026-08-04         | `keyv`/`cacheable` worm (most recent; still settling)        | GitHub account hijack → `preinstall` hook, smart-contract C2         | `keyv@6.0.0` + 400+ packages                                       | Not in tree — verified by reading the dependency manifests of `vitest`, `msw`, `jsdom`, `@testing-library/dom`, `vite`, `eslint`: none declares keyv/cacheable           |
 
 Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cloud-services` "mini Shai-Hulud" waves (Apr–Jun 2026), Microsoft-reported dependency-confusion campaigns (May 2026, OpenSearch/Elastic-themed).
 
 ### 8.2 Pattern lessons applied to this project
 
 1. **Malicious releases ship as patch bumps on trusted names** → exact pins + lockfile (§3).
-2. **Install hooks are the dominant execution vector** (Shai-Hulud waves, keyv) → this stack has exactly one install hook, read and verified (§5.5). Note the counter-example: the chalk/debug payload ran with *no* install script, so `--ignore-scripts` alone is not sufficient.
+2. **Install hooks are the dominant execution vector** (Shai-Hulud waves, keyv) → this stack has exactly one install hook, read and verified (§5.5). Note the counter-example: the chalk/debug payload ran with _no_ install script, so `--ignore-scripts` alone is not sufficient.
 3. **Provenance proves origin, not intent** (TanStack wave shipped SLSA-attested malware) → provenance is treated here as tamper-detection, never as a safety verdict.
 4. **Registry-ahead-of-git is the recurring detection signal** (versions on npm with no matching commits) → the audit verified changelog-to-artifact correspondence for every recent release.
 
@@ -295,14 +295,14 @@ Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cl
 
 ## 10. Residual risks (accepted)
 
-| Risk | Detail | Mitigation in place |
-|---|---|---|
-| Solo-publisher packages | `zod`, `date-fns`, `clsx`, `tailwind-merge`, `msw`, `eslint-plugin-react-refresh` | Four of six use OIDC trusted publishing with provenance (`date-fns`, `clsx` do not); exact pins + lockfile prevent silent uptake of a hijacked release |
-| No provenance attestation | 15 of 32 releases, incl. `typescript`, `prettier`, `eslint` (§5.6) | All are institutionally published (Microsoft/OpenJS/Meta bots) or long-established accounts; signatures still verified via `npm audit signatures` |
-| Dormant high-download package | `clsx` — no release in 2+ years | Artifact read in full (8.5 KB, no I/O); pinned exactly |
-| Provenance ceiling | SLSA-attested malware exists (TanStack wave) | Provenance treated as origin evidence only; changelog-to-artifact verification performed instead |
-| Advisory velocity | `react-router` (~10 advisories 2025–26), `vitest` 4.x (4 critical) | Pinned at patched floors (§5.2); keep current within these lines on every bump |
-| TS 6.0 line aging | Security fixes land primarily on 7.x | Deliberate bridge decision (§2.3); revisit at typescript-eslint TS 7 support |
+| Risk                          | Detail                                                                            | Mitigation in place                                                                                                                                    |
+| ----------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Solo-publisher packages       | `zod`, `date-fns`, `clsx`, `tailwind-merge`, `msw`, `eslint-plugin-react-refresh` | Four of six use OIDC trusted publishing with provenance (`date-fns`, `clsx` do not); exact pins + lockfile prevent silent uptake of a hijacked release |
+| No provenance attestation     | 15 of 32 releases, incl. `typescript`, `prettier`, `eslint` (§5.6)                | All are institutionally published (Microsoft/OpenJS/Meta bots) or long-established accounts; signatures still verified via `npm audit signatures`      |
+| Dormant high-download package | `clsx` — no release in 2+ years                                                   | Artifact read in full (8.5 KB, no I/O); pinned exactly                                                                                                 |
+| Provenance ceiling            | SLSA-attested malware exists (TanStack wave)                                      | Provenance treated as origin evidence only; changelog-to-artifact verification performed instead                                                       |
+| Advisory velocity             | `react-router` (~10 advisories 2025–26), `vitest` 4.x (4 critical)                | Pinned at patched floors (§5.2); keep current within these lines on every bump                                                                         |
+| TS 6.0 line aging             | Security fixes land primarily on 7.x                                              | Deliberate bridge decision (§2.3); revisit at typescript-eslint TS 7 support                                                                           |
 
 ## 11. Hardening roadmap (optional, not yet applied)
 
@@ -327,10 +327,23 @@ Incident reporting and vendor analysis:
 
 Full per-package evidence trails (per-finding source URLs, tarball hashes, diff line counts) are preserved in revision 2 of this document: git history, commit `3f57b97`.
 
+## Addendum A — dependencies added after the initial audit
+
+**`radix-ui@1.6.7` — 🟡 Approve with notes** (runtime; added 2026-08-17, same day as the audit)
+
+Unstyled, accessible UI component primitives (Radix UI), developed by the WorkOS-backed Radix team. The unified `radix-ui` package was chosen over the individual `@radix-ui/react-*` packages (single dependency, tree-shakeable) and over `@radix-ui/themes` (a styled system that would conflict with the Tailwind-first stack). §4 checks performed at install time:
+
+- **Registry:** published 2026-07-24 (24 days old); registry `latest`; maintainers `chancestrickland` + `mark-workos` (2).
+- **Provenance:** SLSA v1 attestation present. **Install scripts:** none (dev-only scripts).
+- **Advisories:** OSV query returns empty — no advisory at this or any version.
+- **Tree impact:** +74 packages (internal `@radix-ui/*` workspace packages), total 379. Post-install `npm audit`: 0 vulnerabilities; `npm audit signatures`: all packages verified, 179 attested.
+- **Note:** brings the runtime direct-dependency count to 13 and adds the largest transitive surface of any runtime dependency in the project; all of it is same-monorepo Radix code.
+
 ## Revision history
 
-| Rev | Date | Change |
-|---|---|---|
-| 1 | 2026-08-17 | Initial audit report compiled from the 7-agent workflow output (32 packages + ecosystem sweep) |
-| 2 | 2026-08-17 | Corrections: audit-artifact files misidentified as vendored tarballs; manifest migrated from `~` ranges to exact pins (`save-exact=true`) |
-| 3 | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons |
+| Rev | Date       | Change                                                                                                                                                                           |
+| --- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 2026-08-17 | Initial audit report compiled from the 7-agent workflow output (32 packages + ecosystem sweep)                                                                                   |
+| 2   | 2026-08-17 | Corrections: audit-artifact files misidentified as vendored tarballs; manifest migrated from `~` ranges to exact pins (`save-exact=true`)                                        |
+| 3   | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons |
+| 4   | 2026-08-17 | Addendum A: `radix-ui@1.6.7` added to the runtime dependencies after §4-equivalent checks                                                                                        |

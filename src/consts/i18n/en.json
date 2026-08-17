@@ -1,0 +1,13 @@
+{
+  "app": {
+    "title": "Frontend Starter"
+  },
+  "layout": {
+    "header": "Header",
+    "sidebar": "Sidebar",
+    "footer": "Footer"
+  },
+  "home": {
+    "welcome": "Welcome to the starter"
+  }
+}

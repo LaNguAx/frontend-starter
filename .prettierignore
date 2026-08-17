@@ -1,0 +1,7 @@
+# Build output
+dist
+coverage
+
+# Generated files
+package-lock.json
+public/mockServiceWorker.js
