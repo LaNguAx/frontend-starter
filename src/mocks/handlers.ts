@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { notesHandlers } from '@/features/notes/notes-handlers';
 
-export const handlers = [
-  // Example handler — replace with your real API mocks
-  http.get('/api/health', () => HttpResponse.json({ status: 'ok' }))
-];
+// Aggregator only — each feature owns its handlers and gets spread in here
+export const handlers = [http.get('/api/health', () => HttpResponse.json({ status: 'ok' })), ...notesHandlers];

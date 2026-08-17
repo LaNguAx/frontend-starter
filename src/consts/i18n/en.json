@@ -5,9 +5,37 @@
   "layout": {
     "header": "Header",
     "sidebar": "Sidebar",
-    "footer": "Footer"
+    "footer": "Footer",
+    "toggleLanguage": "עברית",
+    "nav": {
+      "home": "Home",
+      "notes": "Notes"
+    }
   },
   "home": {
     "welcome": "Welcome to the starter"
+  },
+  "counter": {
+    "increment": "Increment",
+    "decrement": "Decrement",
+    "reset": "Reset",
+    "count": "Count: {{count}}",
+    "even": "Even",
+    "odd": "Odd",
+    "step": "Step"
+  },
+  "notes": {
+    "title": "Notes",
+    "loading": "Loading notes…",
+    "error": "Failed to load notes",
+    "empty": "No notes yet",
+    "delete": "Delete",
+    "form": {
+      "title": "Title",
+      "content": "Content",
+      "submit": "Add note",
+      "titleRequired": "Title is required",
+      "contentRequired": "Content is required"
+    }
   }
 }

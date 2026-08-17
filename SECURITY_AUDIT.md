@@ -37,6 +37,8 @@
 | Routing                 | React Router                                                                                     | 8.3.0                                             |
 | Validation              | Zod                                                                                              | 4.4.3                                             |
 | Dates                   | date-fns                                                                                         | 4.4.0                                             |
+| Forms                   | react-hook-form + @hookform/resolvers (zod bridge) — see Addendum A                              | 7.85.0 / 5.9.0                                    |
+| UI primitives           | Radix UI (unified package) — see Addendum A                                                      | 1.6.7                                             |
 | Internationalization    | i18next + react-i18next + browser language detector                                              | 26.3.6 / 17.0.11 / 8.2.1                          |
 | Styling                 | Tailwind CSS v4 (CSS-first config) via first-party Vite plugin                                   | 4.3.3                                             |
 | Class utilities         | clsx + tailwind-merge                                                                            | 2.1.1 / 3.6.0                                     |
@@ -339,6 +341,16 @@ Unstyled, accessible UI component primitives (Radix UI), developed by the WorkOS
 - **Tree impact:** +74 packages (internal `@radix-ui/*` workspace packages), total 379. Post-install `npm audit`: 0 vulnerabilities; `npm audit signatures`: all packages verified, 179 attested.
 - **Note:** brings the runtime direct-dependency count to 13 and adds the largest transitive surface of any runtime dependency in the project; all of it is same-monorepo Radix code.
 
+**`react-hook-form@7.85.0` — 🟡 Approve with notes** (runtime; added 2026-08-17)
+
+Form state management. §4 checks at install time: 9 days old on an unbroken weekly Friday-release cadence; OSV confirms the audited version is clean. **Recorded incident history:** `react-hook-form@7.73.0` (2026-04-18) was a malicious release (MAL-2026-2853 / GHSA-w8j3-qvc3-h56f) — flagged by GHSA within 17 minutes of publish, affected exactly that one version, cleanly superseded by 7.73.1 two days later. 7.85.0 is 12 releases past the incident. Additional caveat: releases carry no npm provenance attestation. No install scripts.
+
+**`@hookform/resolvers@5.9.0` — 🟡 Approve with notes** (runtime; added 2026-08-17)
+
+Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. The 5.9.0→5.9.1 tarball diff was read anyway — a one-line field-path regex fix repeated across its bundle formats, benign — so bumping to 5.9.1 via the normal deliberate-upgrade flow is pre-cleared once it has settled. No advisisories at any version; no install scripts; note the project's rapid-fire release style (e.g. 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
+
+Post-install tree state: 381 packages, `npm audit` 0 vulnerabilities, all registry signatures verified.
+
 ## Revision history
 
 | Rev | Date       | Change                                                                                                                                                                           |
@@ -347,3 +359,4 @@ Unstyled, accessible UI component primitives (Radix UI), developed by the WorkOS
 | 2   | 2026-08-17 | Corrections: audit-artifact files misidentified as vendored tarballs; manifest migrated from `~` ranges to exact pins (`save-exact=true`)                                        |
 | 3   | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons |
 | 4   | 2026-08-17 | Addendum A: `radix-ui@1.6.7` added to the runtime dependencies after §4-equivalent checks                                                                                        |
+| 5   | 2026-08-17 | Addendum A: `react-hook-form@7.85.0` (noting the 7.73.0 malicious-release incident history) and `@hookform/resolvers@5.9.0` (5.9.1 skipped for recency) added                    |

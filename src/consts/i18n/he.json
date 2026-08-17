@@ -5,9 +5,37 @@
   "layout": {
     "header": "כותרת עליונה",
     "sidebar": "סרגל צד",
-    "footer": "כותרת תחתונה"
+    "footer": "כותרת תחתונה",
+    "toggleLanguage": "English",
+    "nav": {
+      "home": "בית",
+      "notes": "פתקים"
+    }
   },
   "home": {
     "welcome": "ברוכים הבאים לסטארטר"
+  },
+  "counter": {
+    "increment": "הגדל",
+    "decrement": "הקטן",
+    "reset": "איפוס",
+    "count": "מונה: {{count}}",
+    "even": "זוגי",
+    "odd": "אי־זוגי",
+    "step": "צעד"
+  },
+  "notes": {
+    "title": "פתקים",
+    "loading": "טוען פתקים…",
+    "error": "שגיאה בטעינת הפתקים",
+    "empty": "אין פתקים עדיין",
+    "delete": "מחיקה",
+    "form": {
+      "title": "כותרת",
+      "content": "תוכן",
+      "submit": "הוספת פתק",
+      "titleRequired": "כותרת נדרשת",
+      "contentRequired": "תוכן נדרש"
+    }
   }
 }
