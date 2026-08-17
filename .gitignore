@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Environment files — real values never enter git.
+# Committed on purpose: .env.example (documentation), .env.mock (public mock flag)
+.env
+.env.development
+.env.production
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
