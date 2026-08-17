@@ -1,0 +1,4 @@
+{
+  // Auto-imports use the "@/" path alias instead of relative "./" paths
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}

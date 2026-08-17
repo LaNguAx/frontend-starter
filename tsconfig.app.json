@@ -5,9 +5,12 @@
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
     "types": ["vite/client", "vitest/globals"],
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
+
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
