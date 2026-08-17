@@ -14,6 +14,9 @@ export function Sidebar() {
         <NavLink to="/" end className={linkClass}>
           {t('layout.nav.home')}
         </NavLink>
+        <NavLink to="/counter" className={linkClass}>
+          {t('layout.nav.counter')}
+        </NavLink>
         <NavLink to="/notes" className={linkClass}>
           {t('layout.nav.notes')}
         </NavLink>

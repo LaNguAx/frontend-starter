@@ -2,6 +2,9 @@
   "app": {
     "title": "Frontend Starter"
   },
+  "common": {
+    "loading": "Loading…"
+  },
   "layout": {
     "header": "Header",
     "sidebar": "Sidebar",
@@ -9,13 +12,18 @@
     "toggleLanguage": "עברית",
     "nav": {
       "home": "Home",
+      "counter": "Counter",
       "notes": "Notes"
     }
   },
   "home": {
-    "welcome": "Welcome to the starter"
+    "welcome": "Welcome to the starter",
+    "intro1": "A production-grade frontend starter: Vite, React, TypeScript, Redux Toolkit, React Router, Tailwind, and i18next — with exact-pinned, supply-chain-audited dependency versions.",
+    "intro2": "The \"Counter\" tab demonstrates client state with Redux Toolkit (slice, memoized selectors); the \"Notes\" tab demonstrates server state with RTK Query, forms with react-hook-form + zod, and a mocked API with MSW.",
+    "intro3": "Both features double as living documentation: each feature folder has a README explaining its structure and rules — copy their shape when adding a new feature."
   },
   "counter": {
+    "title": "Counter",
     "increment": "Increment",
     "decrement": "Decrement",
     "reset": "Reset",

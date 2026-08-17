@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { notesFixtures } from '@/features/notes/notes-fixtures';
+import { notesFixtures } from '@/features/notes/mocks/notes-fixtures';
 import type { CreateNoteInput, Note } from '@/features/notes/notes-types';
 
 // In-memory state so mutations behave realistically in dev and tests

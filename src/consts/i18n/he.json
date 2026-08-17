@@ -2,6 +2,9 @@
   "app": {
     "title": "סטארטר פרונטאנד"
   },
+  "common": {
+    "loading": "טוען…"
+  },
   "layout": {
     "header": "כותרת עליונה",
     "sidebar": "סרגל צד",
@@ -9,13 +12,18 @@
     "toggleLanguage": "English",
     "nav": {
       "home": "בית",
+      "counter": "מונה",
       "notes": "פתקים"
     }
   },
   "home": {
-    "welcome": "ברוכים הבאים לסטארטר"
+    "welcome": "ברוכים הבאים לסטארטר",
+    "intro1": "תבנית פתיחה לפרויקטי פרונטאנד ברמת פרודקשן: Vite, React, TypeScript, Redux Toolkit, React Router, Tailwind ו־i18next — עם גרסאות נעוצות במדויק שעברו בדיקת שרשרת אספקה.",
+    "intro2": "הטאב \"מונה\" מדגים ניהול client state עם Redux Toolkit (slice, selectors ממורשים), והטאב \"פתקים\" מדגים server state עם RTK Query, טפסים עם react-hook-form ו־zod, ו־API מדומה עם MSW.",
+    "intro3": "שני הפיצ'רים משמשים כתיעוד חי: בכל תיקיית פיצ'ר יש README שמסביר את המבנה ואת הכללים — העתיקו את הצורה שלהם כשמוסיפים פיצ'ר חדש."
   },
   "counter": {
+    "title": "מונה",
     "increment": "הגדל",
     "decrement": "הקטן",
     "reset": "איפוס",

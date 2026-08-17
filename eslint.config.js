@@ -17,6 +17,13 @@ export default defineConfig([
     ],
     languageOptions: {
       globals: globals.browser
+    },
+    rules: {
+      // Underscore prefix marks intentionally unused values (e.g. `(_result, _error, id)`)
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }
+      ]
     }
   }
 ]);

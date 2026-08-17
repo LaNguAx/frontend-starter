@@ -26,10 +26,12 @@ owned by a Redux slice. Its counterpart is `features/notes`, the reference for *
 
 ## Integration points
 
-1. **Store** — `src/redux/store.ts`: register `[counterSlice.name]: counterSlice.reducer`.
+1. **Route** — `counter-route.ts` exports the feature-owned lazy `RouteObject`, registered in
+   `src/routes/router.ts`; the nav link lives in `src/ui/components/Sidebar.tsx`.
+2. **Store** — `src/redux/store.ts`: register `[counterSlice.name]: counterSlice.reducer`.
    This is the single client-state touchpoint (server-state features don't even need this —
    they inject into the shared api reducer).
-2. **i18n** — `counter.*` namespace in `he.json` + `en.json`. Note the typed-`t()` rule:
+3. **i18n** — `counter.*` namespace in `he.json` + `en.json`. Note the typed-`t()` rule:
    pick between literal keys (`t(isEven ? 'counter.even' : 'counter.odd')`) — never build
    keys with string templates, which defeats key type-checking.
 

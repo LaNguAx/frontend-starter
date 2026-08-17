@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/tests/test-utils';
 import { NotesList } from '@/features/notes/components/NotesList';
-import { resetNotes } from '@/features/notes/notes-handlers';
+import { resetNotes } from '@/features/notes/mocks/notes-handlers';
 
 beforeEach(() => resetNotes());
 
