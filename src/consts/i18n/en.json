@@ -38,6 +38,12 @@
     "error": "Failed to load notes",
     "empty": "No notes yet",
     "delete": "Delete",
+    "deleteConfirm": {
+      "title": "Delete this note?",
+      "description": "The note will be permanently deleted. This cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
     "form": {
       "title": "Title",
       "content": "Content",
