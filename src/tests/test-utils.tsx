@@ -29,7 +29,6 @@ export function renderWithRouterAndProviders(
 
   return {
     store,
-    router,
     ...render(
       <Provider store={store}>
         <RouterProvider router={router} />
