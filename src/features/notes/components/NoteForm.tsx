@@ -25,7 +25,7 @@ export function NoteForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-md flex-col gap-2">
+    <form onSubmit={(e) => void handleSubmit(onSubmit)(e)} className="flex max-w-md flex-col gap-2">
       <input
         {...register('title')}
         aria-label={t('notes.form.title')}

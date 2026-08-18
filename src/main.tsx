@@ -15,7 +15,7 @@ async function enableMocking() {
   return worker.start();
 }
 
-enableMocking().then(() => {
+void enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />

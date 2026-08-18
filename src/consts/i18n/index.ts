@@ -12,7 +12,9 @@ i18n.on('languageChanged', (lng) => {
   document.documentElement.dir = i18n.dir(lng);
 });
 
-i18n
+// Fire-and-forget by design: bundled resources make init synchronous in practice,
+// and react-i18next suspends/re-renders once it completes
+void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({

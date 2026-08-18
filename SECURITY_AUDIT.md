@@ -5,7 +5,7 @@
 | **Project**           | `frontend-starter` — Vite + React + TypeScript starter template                                                                                                                    |
 | **Repository**        | <https://github.com/LaNguAx/frontend-starter>                                                                                                                                      |
 | **Audit date**        | 2026-08-17                                                                                                                                                                         |
-| **Document revision** | 3 (2026-08-17) — see [Revision history](#revision-history)                                                                                                                         |
+| **Document revision** | 6 (2026-08-18) — see [Revision history](#revision-history)                                                                                                                         |
 | **Scope**             | All 32 direct dependencies at their exact pinned versions, the resolved transitive tree (304 packages), and the 2025–2026 npm supply-chain threat landscape                        |
 | **Method**            | 7 parallel Claude Opus 5 audit agents (285 verification actions), cross-checked against the npm registry, OSV.dev/GHSA, vendor IOC datasets, and upstream changelogs/tarball diffs |
 | **Environment**       | Node.js v24.12.0 (LTS) · npm 11.12.1 · Windows 11 Pro                                                                                                                              |
@@ -349,7 +349,17 @@ Form state management. §4 checks at install time: 9 days old on an unbroken wee
 
 Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. The 5.9.0→5.9.1 tarball diff was read anyway — a one-line field-path regex fix repeated across its bundle formats, benign — so bumping to 5.9.1 via the normal deliberate-upgrade flow is pre-cleared once it has settled. No advisisories at any version; no install scripts; note the project's rapid-fire release style (e.g. 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
 
-Post-install tree state: 381 packages, `npm audit` 0 vulnerabilities, all registry signatures verified.
+**`@vitest/coverage-v8@4.1.10` — 🟢 Approve** (dev; added 2026-08-17)
+
+V8 code-coverage provider for Vitest, from the Vitest core team — the same already-audited maintainer set as `vitest@4.1.10`, and version-locked to it (the provider must match the vitest version exactly). §4 checks performed at install time:
+
+- **Registry:** published 2026-07-06 (six weeks before adoption, same day as `vitest@4.1.10`); maintainers `ariperkkio`, `antfu`, `hiogawa`, `oreanno`, `yyx990803` (5).
+- **Provenance:** attestation present. **Install scripts:** none (the package's `scripts` are the maintainers' own `dev`/`build`; nothing executes on consumer install).
+- **Advisories:** OSV returns empty for the package **and for each of its 10 direct dependencies** (no advisory at any version), including the unfamiliar `obug` — verified as a TypeScript/ESM fork of `debug` maintained by sxzz (Kevin Deng, Vue core team).
+- **Tree impact:** +13 packages (the istanbul reporting family, `@bcoe/v8-coverage`, `ast-v8-to-istanbul`, `magicast`, `obug`), total 394.
+- **Note:** dev-only, loaded solely by `npm run test:coverage`; unreachable from the production bundle.
+
+Post-install tree state: 394 packages, `npm audit` 0 vulnerabilities, `npm audit signatures`: 393 verified registry signatures, 183 verified attestations.
 
 ## Revision history
 
@@ -360,3 +370,4 @@ Post-install tree state: 381 packages, `npm audit` 0 vulnerabilities, all regist
 | 3   | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons |
 | 4   | 2026-08-17 | Addendum A: `radix-ui@1.6.7` added to the runtime dependencies after §4-equivalent checks                                                                                        |
 | 5   | 2026-08-17 | Addendum A: `react-hook-form@7.85.0` (noting the 7.73.0 malicious-release incident history) and `@hookform/resolvers@5.9.0` (5.9.1 skipped for recency) added                    |
+| 6   | 2026-08-18 | Addendum A: `@vitest/coverage-v8@4.1.10` (dev) added after §4-equivalent checks incl. an OSV batch sweep of all its direct dependencies                                          |

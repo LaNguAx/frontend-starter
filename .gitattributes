@@ -1,0 +1,3 @@
+# Normalize line endings: everything git detects as text is stored AND checked out
+# as LF, so clones behave identically on Windows, macOS, and Linux.
+* text=auto eol=lf

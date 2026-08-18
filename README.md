@@ -19,16 +19,17 @@ The app boots with no `.env` file (schema defaults cover the baseline). It rende
 
 ## Scripts
 
-| Script             | What it does                                                |
-| ------------------ | ----------------------------------------------------------- |
-| `npm run dev`      | Vite dev server (expects a real API at `VITE_API_BASE_URL`) |
-| `npm run dev:mock` | Dev server with MSW intercepting API calls (`--mode mock`)  |
-| `npm run build`    | Type-check (`tsc -b`) + production bundle                   |
-| `npm run preview`  | Serve the production build locally                          |
-| `npm run test`     | Vitest in watch mode                                        |
-| `npm run test:run` | Full test suite once (CI mode)                              |
-| `npm run lint`     | ESLint (flat config)                                        |
-| `npm run format`   | Prettier write (`format:check` to verify only)              |
+| Script                  | What it does                                                  |
+| ----------------------- | ------------------------------------------------------------- |
+| `npm run dev`           | Vite dev server (expects a real API at `VITE_API_BASE_URL`)   |
+| `npm run dev:mock`      | Dev server with MSW intercepting API calls (`--mode mock`)    |
+| `npm run build`         | Type-check (`tsc -b`) + production bundle                     |
+| `npm run preview`       | Serve the production build locally                            |
+| `npm run test`          | Vitest in watch mode                                          |
+| `npm run test:run`      | Full test suite once (CI mode)                                |
+| `npm run test:coverage` | Test suite + V8 code-coverage report (written to `coverage/`) |
+| `npm run lint`          | ESLint (flat config)                                          |
+| `npm run format`        | Prettier write (`format:check` to verify only)                |
 
 ## The stack
 

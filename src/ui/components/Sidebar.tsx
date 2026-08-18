@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
+import { cn } from '@/utils/pure-utils/cn';
 
 export function Sidebar() {
   const { t } = useTranslation();
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    clsx('rounded px-3 py-2 hover:bg-green-300', isActive && 'bg-green-300 font-semibold');
+    cn('rounded px-3 py-2 hover:bg-green-300', isActive && 'bg-green-300 font-semibold');
 
   return (
     <aside className="w-64 bg-green-200 p-4">

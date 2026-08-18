@@ -1,5 +1,5 @@
 import { Outlet, useNavigation } from 'react-router';
-import clsx from 'clsx';
+import { cn } from '@/utils/pure-utils/cn';
 import { Header } from '@/ui/components/Header';
 import { Sidebar } from '@/ui/components/Sidebar';
 import { Main } from '@/ui/components/Main';
@@ -17,7 +17,7 @@ export function RootLayout() {
       <div className="flex flex-1">
         <Sidebar />
         <Main>
-          <div className={clsx('transition-opacity', isNavigating && 'opacity-50')}>
+          <div className={cn('transition-opacity', isNavigating && 'opacity-50')}>
             <Outlet />
           </div>
         </Main>
