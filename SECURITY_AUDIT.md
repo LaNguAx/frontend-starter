@@ -364,7 +364,7 @@ Form state management. §4 checks at install time: 9 days old on an unbroken wee
 
 **`@hookform/resolvers@5.9.0` — 🟡 Approve with notes** (runtime; added 2026-08-17)
 
-Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. The 5.9.0→5.9.1 tarball diff was read anyway — a one-line field-path regex fix repeated across its bundle formats, benign — so bumping to 5.9.1 via the normal deliberate-upgrade flow is pre-cleared once it has settled. No advisories at any version; no install scripts; note the project's rapid-fire release style (for example, 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
+Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. (The 5.9.0→5.9.1 tarball diff was read at the time and looked benign — a one-line field-path regex fix — but no standing pre-approval exists: the pin is 5.9.0, and any future bump goes through the full dependency-change workflow like every other package.) No advisories at any version; no install scripts; note the project's rapid-fire release style (for example, 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
 
 **`@vitest/coverage-v8@4.1.10` — 🟢 Approve** (dev; added 2026-08-17)
 
