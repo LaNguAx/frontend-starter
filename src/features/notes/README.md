@@ -21,7 +21,7 @@ real features exist. New features are built alongside it by copying its shape.
 | `notes-api.ts`            | RTK Query endpoints via `baseApi.enhanceEndpoints({ addTagTypes }).injectEndpoints(...)`. The feature owns its cache tags, following the **per-id + `LIST` pattern**: the list query provides one tag per note plus `{ type: 'Note', id: 'LIST' }`; creates invalidate `LIST`, deletes invalidate both — so refetching is automatic, with no manual refresh logic anywhere. `responseSchema`/`argSchema` enforce the zod contracts **at runtime** and infer the endpoint types — a malformed backend payload becomes a normal query error (via `catchSchemaFailure` in the base api) instead of corrupt UI state. Tolerance policy: **unknown response fields are stripped silently** (additive backend changes are safe); **missing expected fields fail validation**. |
 | `mocks/notes-fixtures.ts` | Deterministic, hand-written mock data. Shared by handlers and tests so both agree on reality.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `mocks/notes-handlers.ts` | Feature-owned MSW handlers with in-memory state, so mutations behave realistically in dev. Stateful handlers **must** export a `reset*()` used in test `beforeEach`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `components/`             | Feature-private components. Nothing outside the feature may import them (except its own page). Forms use react-hook-form + `zodResolver` with the translated schema factory, re-created via `useMemo(() => makeCreateNoteSchema(t), [t])` so error messages follow language changes (`NoteForm.tsx`). Interactive patterns that need real accessibility (dialogs, dropdowns, tooltips…) are built on Radix UI primitives, never hand-rolled — see `DeleteNoteDialog.tsx` (focus trap, Esc, ARIA roles for free).                                                                                                                                                                                                                                                        |
+| `components/`             | Feature-private components. Production code outside the feature may not import them; tests may import them directly. Forms use react-hook-form + `zodResolver` with the translated schema factory, re-created via `useMemo(() => makeCreateNoteSchema(t), [t])` so error messages follow language changes (`NoteForm.tsx`). Interactive patterns that need real accessibility (dialogs, dropdowns, tooltips…) are built on Radix UI primitives, never hand-rolled — see `DeleteNoteDialog.tsx` (focus trap, Esc, ARIA roles for free).                                                                                                                                                                                                                                  |
 | `pages/`                  | The routable page(s), loaded only through the feature route file below.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `notes-route.ts`          | The feature-owned `RouteObject`: path + `lazy` import of the page, so the feature code-splits into its own chunk. Registered with one line in `src/routes/router.ts`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
@@ -37,18 +37,29 @@ feature's internals. If two features need the same code, it moves to a shared fo
 
 ## Testing
 
-Tests live in `src/tests/features/notes/`, mirroring this folder (never colocated):
+Component implementation files and tests named after those components use PascalCase. All
+other files use kebab-case. Tests live under `src/tests/`; feature tests are flattened under
+`src/tests/features/<feature>/` to match the permanent examples. Tests may import
+feature-private components directly; production code outside the feature may not.
+
+For this feature, the flattened test files are:
 
 - `notes-api.test.ts` — endpoint behavior through real MSW responses, dispatched on a fresh store.
 - `NoteForm.test.tsx` — validation and submit behavior via `renderWithProviders`.
 - `NotesList.test.tsx` — rendering against the fixtures, plus the delete-confirmation flow (cancel keeps the note, confirm removes it).
 
-Every test file touching the stateful handlers calls `resetNotes()` in `beforeEach`;
-`renderWithProviders`/`makeStore` already guarantee a fresh Redux store per test.
+Every test file touching the stateful handlers calls `resetNotes()` in `beforeEach`.
+`renderWithProviders` gives Redux-only component tests a fresh store. Tests that need data
+router context use `renderWithRouterAndProviders` with route objects and optional
+`initialEntries`; it also creates a fresh store.
+
+`@testing-library/jest-dom` and `@testing-library/user-event` are intentionally absent. Use
+Vitest core matchers and Testing Library's `fireEvent` unless a separately approved dependency
+change adds them.
 
 ## Conventions recap
 
-- `.tsx` components: PascalCase. Everything else: kebab-case, prefixed with the feature name.
+- Follow the testing section's naming, location, and feature-privacy rule exactly.
 - Text is never hardcoded — every user-facing string goes through `t()` with keys under the
   feature's i18n namespace (Hebrew is the primary language and the typed-key source).
 - Styling: Tailwind utilities only; use logical variants (`ps-*`, `text-start`) — never

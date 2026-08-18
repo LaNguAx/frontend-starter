@@ -3,12 +3,11 @@
     "title": "Frontend Starter"
   },
   "common": {
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "somethingWentWrong": "Something went wrong",
+    "unknownError": "Unknown error"
   },
   "layout": {
-    "header": "Header",
-    "sidebar": "Sidebar",
-    "footer": "Footer",
     "toggleLanguage": "עברית",
     "nav": {
       "home": "Home",

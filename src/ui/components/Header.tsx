@@ -9,7 +9,7 @@ export function Header() {
 
   return (
     <header className="flex items-center justify-between bg-blue-200 p-4">
-      <span className="font-semibold">{t('layout.header')}</span>
+      <span className="font-semibold">{t('app.title')}</span>
       <button
         type="button"
         onClick={toggleLanguage}

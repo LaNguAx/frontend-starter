@@ -3,12 +3,11 @@
     "title": "סטארטר פרונטאנד"
   },
   "common": {
-    "loading": "טוען…"
+    "loading": "טוען…",
+    "somethingWentWrong": "משהו השתבש",
+    "unknownError": "שגיאה לא ידועה"
   },
   "layout": {
-    "header": "כותרת עליונה",
-    "sidebar": "סרגל צד",
-    "footer": "כותרת תחתונה",
     "toggleLanguage": "English",
     "nav": {
       "home": "בית",

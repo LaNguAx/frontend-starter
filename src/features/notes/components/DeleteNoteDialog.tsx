@@ -12,7 +12,7 @@ export function DeleteNoteDialog({ onConfirm }: { onConfirm: () => void }) {
       <AlertDialog.Trigger className="text-sm text-red-600 hover:underline">{t('notes.delete')}</AlertDialog.Trigger>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="fixed inset-0 bg-black/40" />
-        <AlertDialog.Content className="fixed top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 rounded border border-gray-300 bg-white p-6 shadow-lg">
+        <AlertDialog.Content className="fixed top-1/2 start-1/2 w-[90vw] max-w-sm ltr:-translate-x-1/2 rtl:translate-x-1/2 -translate-y-1/2 rounded border border-gray-300 bg-white p-6 shadow-lg">
           <AlertDialog.Title className="font-semibold">{t('notes.deleteConfirm.title')}</AlertDialog.Title>
           <AlertDialog.Description className="mt-2 text-sm text-gray-600">
             {t('notes.deleteConfirm.description')}

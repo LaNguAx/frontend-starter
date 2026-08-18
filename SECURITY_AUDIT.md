@@ -1,26 +1,30 @@
 # Security & Dependency Audit
 
-|                       |                                                                                                                                                                                    |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Project**           | `frontend-starter` — Vite + React + TypeScript starter template                                                                                                                    |
-| **Repository**        | <https://github.com/LaNguAx/frontend-starter>                                                                                                                                      |
-| **Audit date**        | 2026-08-17                                                                                                                                                                         |
-| **Document revision** | 6 (2026-08-18) — see [Revision history](#revision-history)                                                                                                                         |
-| **Scope**             | All 32 direct dependencies at their exact pinned versions, the resolved transitive tree (304 packages), and the 2025–2026 npm supply-chain threat landscape                        |
-| **Method**            | 7 parallel Claude Opus 5 audit agents (285 verification actions), cross-checked against the npm registry, OSV.dev/GHSA, vendor IOC datasets, and upstream changelogs/tarball diffs |
-| **Environment**       | Node.js v24.12.0 (LTS) · npm 11.12.1 · Windows 11 Pro                                                                                                                              |
+|                                      |                                                                                                                                                                                    |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Project**                          | `frontend-starter` — Vite + React + TypeScript starter template                                                                                                                    |
+| **Repository**                       | <https://github.com/LaNguAx/frontend-starter>                                                                                                                                      |
+| **Initial audit date**               | 2026-08-17                                                                                                                                                                         |
+| **Document revision**                | 7 (2026-08-18) — see [Revision history](#revision-history)                                                                                                                         |
+| **Current scope**                    | All 36 direct dependencies (15 runtime, 21 development) at their exact pinned versions, plus the locked and installed transitive tree                                              |
+| **Initial audit scope**              | 32 direct dependencies, 304 verified packages, and the 2025–2026 npm supply-chain threat landscape                                                                                 |
+| **Initial method**                   | 7 parallel Claude Opus 5 audit agents (285 verification actions), cross-checked against the npm registry, OSV.dev/GHSA, vendor IOC datasets, and upstream changelogs/tarball diffs |
+| **Initial audit environment**        | Node.js v24.12.0 (LTS) · npm 11.12.1 · Windows 11 Pro                                                                                                                              |
+| **Current verification environment** | Node.js v24.19.0 · npm 11.17.0 · Windows, verified 2026-08-18                                                                                                                      |
 
 ---
 
 ## 1. Executive summary
 
-**All 32 pinned dependency versions are approved for production use: 12 clean approvals, 20 approvals with recorded caveats, 0 holds.**
+**All 36 currently pinned dependency versions are approved for this repository: 13 clean approvals, 23 approvals with recorded caveats, 0 holds.**
 
-- **Zero advisory hits.** Every `package@version` pair was queried individually against OSV.dev (which aggregates GitHub Security Advisories and the OpenSSF `MAL-*` malicious-package feed) and exact-matched against three vendor IOC datasets from the 2025–2026 npm attack waves. No pinned version — and no _package name_ in this list, at any version in its history — has ever carried a malicious-code advisory. The check harness was validated with nine known-bad positive controls, so the clean result is evidenced, not assumed.
+- **Zero vulnerabilities at the current pins.** The initial 32 `package@version` pairs and the four later additions were checked as recorded below. No currently pinned version is affected. At the package-name level, 35 of 36 names have no malicious-code advisory history; `react-hook-form@7.73.0` is the documented historical exception, while the pinned `7.85.0` is clean and approved (Addendum A).
 - **Two pins are security floors.** `react-router@8.3.0` and `vitest@4.1.10` are themselves the patched releases for a High and a Critical advisory respectively. They must never be downgraded (§5.2).
-- **The transitive tree is verified and locked.** `package-lock.json` pins all 304 resolved packages; `npm audit` reports 0 vulnerabilities across the full tree; `npm audit signatures` verifies registry signatures for 304/304 packages and SLSA provenance attestations for 114.
+- **The current transitive tree is verified and locked.** `package-lock.json` contains 438 non-root dependency entries. On 2026-08-18, connected `npm audit --json` reported 0 vulnerabilities across those 438 entries; `npm ls --all --parseable` exposed 393 installed package paths (394 lines including the project root); and `npm audit signatures` verified registry signatures for all 393 installed packages, with 183 verified attestations.
 - **One package executes code at install time.** `msw` has a `postinstall` hook; it was extracted and read line-by-line and is benign (§7, msw entry).
 - **Every release-pattern anomaly was investigated and cleared** — including four that matched the classic shape of a supply-chain compromise (§5.4).
+
+The original 2026-08-17 audit remains historical evidence: it covered 32 direct dependencies and a 304-package installed tree. Addendum A records the four later direct-dependency assessments; revision 7 reconciles their totals without attributing them to the earlier 7-agent run.
 
 ---
 
@@ -55,7 +59,7 @@
 - **Redux Toolkit + RTK Query** over TanStack Query for server state — one prescribed pattern, RTK Query included in the same package (no additional dependency).
 - **MSW with static, hand-written fixtures** — no faker-style data generator; deterministic fixtures are preferred for tests, and MSW mocks at the network layer so RTK Query code runs unmodified in tests and browser dev.
 - **No `eslint-config-prettier`** — ESLint 10's recommended configs (and typescript-eslint's) ship no formatting rules, so there is nothing for Prettier to conflict with. This also keeps the project clear of a package with a 2025 compromise history (§8.1).
-- **No path-alias plugin** — the single `@/ → src/` alias (planned) is configured directly in `tsconfig` + `vite.config.ts` rather than via `vite-tsconfig-paths`.
+- **No path-alias plugin** — the single `@/ → src/` alias is configured directly in `tsconfig` + `vite.config.ts` rather than via `vite-tsconfig-paths`.
 - **jsdom over happy-dom** — Testing Library's assumed environment; more spec-compliant.
 
 ### 2.3 TypeScript 6.0 vs 7.x
@@ -70,8 +74,8 @@ The pinned `typescript@6.0.3` is deliberately one generation behind the registry
 
 1. **Exact pins in `package.json`** — no `^`/`~` range operators. Rationale: nearly every malicious release in the 2025–2026 npm attack waves shipped as a _patch_ bump on a trusted package (`debug@4.4.2`, `eslint-config-prettier@10.1.7`, `chalk@5.6.1`), which is precisely the digit that range operators float.
 2. **`.npmrc` → `save-exact=true`** — every future `npm install <pkg>` records an exact version automatically.
-3. **Committed `package-lock.json`, installs via `npm ci`** — extends pinning to all 304 transitive packages with integrity hashes; `npm ci` refuses to run if lock and manifest disagree.
-4. **Upgrades are deliberate events** — check `npm outdated`, review the changelog of the exact new version, re-run advisory checks, re-pin, commit. If the repository adopts Renovate/Dependabot, configure minor-level updates only (e.g. Renovate `matchUpdateTypes: ["minor"]`) so upgrades arrive as reviewable PRs.
+3. **Committed `package-lock.json`, installs via `npm ci`** — extends pinning to all 438 current non-root lockfile entries with integrity hashes; `npm ci` refuses to run if lock and manifest disagree.
+4. **Upgrades are deliberate events** — follow [CLAUDE.md's dependency-change workflow](./CLAUDE.md#dependency-changes). Explicit approval must cover the package, exact version, and runtime or development dependency class; the workflow then requires connected audit checks, an exact npm update, reproducibility, an audit-record update, and complete verification. Dependency approval never grants commit or push authority; those actions require a separate explicit user request. If the repository adopts Renovate/Dependabot, configure minor-level updates only (for example, Renovate `matchUpdateTypes: ["minor"]`) so upgrades arrive as reviewable proposals.
 
 ### 3.2 Pinned versions intentionally behind registry `latest`
 
@@ -84,13 +88,13 @@ Verified against the registry on the audit date:
 | `typescript-eslint` | 8.65.0  | 8.67.0          | Audited scaffold version; two-minor gap, no advisories |
 | `globals`           | 17.7.0  | 17.11.0         | Audited scaffold version; data-only package, minor gap |
 
-All 28 other pins were the registry `latest` at audit time. The last two rows are candidates for the deliberate minor-bump workflow.
+All 28 other pins in the initial 32-package audit were the registry `latest` at audit time. The last two rows are candidates for the deliberate minor-bump workflow. Addendum A records the later packages separately and does not retroactively expand this point-in-time registry comparison.
 
 ---
 
 ## 4. Audit methodology
 
-Each of the 32 packages was audited individually for:
+Each of the initial 32 packages was audited individually for:
 
 1. **Release-cadence anomalies** — full `npm view <pkg> time` history; out-of-band publishes, dormancy-then-burst patterns, weekend/rushed releases.
 2. **Publish provenance** — presence of SLSA v1 provenance attestations (`dist.attestations`) and the publishing identity (`_npmUser`): GitHub Actions OIDC trusted publishing vs. human/bot token.
@@ -101,7 +105,7 @@ Each of the 32 packages was audited individually for:
 
 In parallel, an ecosystem sweep catalogued 2025–2026 npm supply-chain incidents and checked every incident's IOC list against this dependency set (§8). The check harness was validated with positive controls (nine known-malicious `package@version` pairs, all correctly flagged).
 
-Post-install, the resolved tree was verified: `npm ls` (32/32 direct deps at pinned versions, no invalid peers), `npm audit` (0 vulnerabilities / 304 packages), `npm audit signatures` (304 verified signatures, 114 verified attestations), and a production build + lint pass.
+For the initial audit, the resolved tree was verified with `npm ls` (32/32 direct dependencies at pinned versions, no invalid peers), `npm audit` (0 vulnerabilities / 304 packages), `npm audit signatures` (304 verified signatures, 114 verified attestations), and a production build + lint pass. Addendum A records the four later package assessments and the then-current tree result; §9 records the fresh revision-7 verification.
 
 ---
 
@@ -111,8 +115,8 @@ Post-install, the resolved tree was verified: `npm ls` (32/32 direct deps at pin
 
 | Verdict               | Count | Meaning                            |
 | --------------------- | ----- | ---------------------------------- |
-| ✅ Approve            | 12    | No concerns worth a caveat         |
-| 🟡 Approve with notes | 20    | Safe to use; caveat recorded below |
+| ✅ Approve            | 13    | No concerns worth a caveat         |
+| 🟡 Approve with notes | 23    | Safe to use; caveat recorded below |
 | ⛔ Hold               | 0     | —                                  |
 
 ### 5.2 Security floors — do not downgrade
@@ -124,8 +128,8 @@ Post-install, the resolved tree was verified: `npm ls` (32/32 direct deps at pin
 
 ### 5.3 Advisory clearance — clarifications
 
-- **32/32 pinned versions clean; 32/32 package names have never carried a malicious-code (`MAL-*`) advisory.**
-- "No advisory at the pinned version" ≠ "no CVEs ever": several names carry ordinary vulnerabilities at _other_ versions — `vite` (22 GHSAs, incl. the 2026 dev-server advisories CVE-2026-39363/-39364/-39365 and CVE-2026-53571, all patched below 8.2.x), `react-router` (20), `vitest` (2), `react` (2), `react-dom` (1), `zod` (1: CVE-2026-6991, ≤4.3.6), `i18next` (2, incl. CVE-2026-63402 prototype pollution, ≤26.3.3). **None affects the pinned versions.** The other 25 names have no advisories at any version.
+- **36/36 current pinned versions are clean; 35/36 package names have never carried a malicious-code (`MAL-*`) advisory.** The exception is the historical `react-hook-form@7.73.0` incident; pinned `react-hook-form@7.85.0` is unaffected and approved (Addendum A).
+- "No advisory at the pinned version" ≠ "no advisories ever": several names carry ordinary vulnerabilities at _other_ versions — `vite` (22 GHSAs, incl. the 2026 dev-server advisories CVE-2026-39363/-39364/-39365 and CVE-2026-53571, all patched below 8.2.x), `react-router` (20), `vitest` (2), `react` (2), `react-dom` (1), `zod` (1: CVE-2026-6991, ≤4.3.6), `i18next` (2, incl. CVE-2026-63402 prototype pollution, ≤26.3.3), and `react-hook-form` (the single malicious release above). **None affects the pinned versions.** The other 28 names have no advisory at any version in the recorded checks.
 - **React2Shell (CVE-2025-55182, Critical RCE) does not apply**: it affects the React Server Components payload packages (`react-server-dom-webpack`/`-turbopack`/`-parcel`), not `react`/`react-dom` client rendering in a Vite SPA. Same for the related DoS advisories CVE-2025-55184 and CVE-2026-23869.
 - The only advisory ever filed against `eslint` itself (CVE-2025-50537, RuleTester) was withdrawn on 2026-02-03.
 
@@ -146,7 +150,7 @@ Four release patterns matched classic compromise signatures; each was verified b
 
 ### 5.6 Provenance coverage
 
-17 of 32 pinned releases carry SLSA v1 provenance attestations published via GitHub Actions OIDC trusted publishing (cryptographically tying the tarball to a CI build of the public repo). The 15 without attestations, and why each is tolerable, are recorded per-package in §7; the notable ones: `typescript` (published by Microsoft's `typescript-bot` token), `prettier`, `eslint`/`@eslint/js` (OpenJS Foundation `eslintbot` token), the i18next trio, `date-fns`, `clsx` (2024 release, predates adoption), `@testing-library/dom`, `eslint-plugin-react-hooks` (Meta `react-bot`), `globals`, and all DefinitelyTyped `@types/*` packages (shared Microsoft publisher bot; no DT package carries provenance).
+Current connected verification found SLSA v1 provenance attestations for 19 of 36 direct pinned releases. The 17 without attestations are `@eslint/js`, `@hookform/resolvers`, `@testing-library/dom`, the three DefinitelyTyped packages, `clsx`, `date-fns`, `eslint`, `eslint-plugin-react-hooks`, `globals`, the i18next trio, `prettier`, `react-hook-form`, and `typescript`. The initial audit found 17 of its 32 direct releases attested; the two attested later additions are `radix-ui` and `@vitest/coverage-v8`. Provenance ties an artifact to its publishing workflow but is not, by itself, a safety verdict (§10).
 
 ---
 
@@ -188,6 +192,17 @@ Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attest
 | `@types/node`                      | 24.13.3 | dev     | 2026-07-08 | 40      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
 | `@types/react`                     | 19.2.18 | dev     | 2026-07-30 | 18      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
 | `@types/react-dom`                 | 19.2.4  | dev     | 2026-07-30 | 18      | DefinitelyTyped (Microsoft bot)              | —     | ✅      |
+
+### 6.1 Current-state continuation
+
+The matrix above preserves the initial 32-package audit. These four later assessments complete the current 36-package verdict set; their evidence trails are in Addendum A.
+
+| Package               | Version | Type    | Prov. | Verdict |
+| --------------------- | ------- | ------- | ----- | ------- |
+| `radix-ui`            | 1.6.7   | runtime | ✅    | 🟡      |
+| `react-hook-form`     | 7.85.0  | runtime | —     | 🟡      |
+| `@hookform/resolvers` | 5.9.0   | runtime | —     | 🟡      |
+| `@vitest/coverage-v8` | 4.1.10  | dev     | ✅    | ✅      |
 
 ---
 
@@ -257,7 +272,7 @@ Age is measured at the audit date (2026-08-17). "Prov." = SLSA provenance attest
 
 ## 8. Threat landscape 2025 – August 2026, checked against this stack
 
-Every incident below was checked against this project's 32 `package@version` pairs (OSV/MAL feeds plus Datadog `shai-hulud-2.0.csv` (537 rows), `consolidated_iocs.csv` (796 rows, deduped across Koi/StepSecurity/Aikido/Wiz/ReversingLabs/HelixGuard), and `teampcp/iocs.csv` (80 rows)). **Zero matches.**
+For the initial audit, every incident below was checked against the then-current 32 `package@version` pairs (OSV/MAL feeds plus Datadog `shai-hulud-2.0.csv` (537 rows), `consolidated_iocs.csv` (796 rows, deduped across Koi/StepSecurity/Aikido/Wiz/ReversingLabs/HelixGuard), and `teampcp/iocs.csv` (80 rows)). That initial set produced **zero matches**. The four later additions received the checks recorded in Addendum A; `react-hook-form` has the historical malicious-release exception described there, while its current pin is clean.
 
 ### 8.1 Incident register
 
@@ -287,9 +302,11 @@ Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cl
 
 ## 9. Transitive tree verification
 
-- **Lockfile:** `package-lock.json` committed; 304 packages resolved with integrity hashes. Reproducible installs via `npm ci`.
-- **`npm audit`:** 0 vulnerabilities across all 304 packages (direct + 272 transitive), as of 2026-08-17.
-- **`npm audit signatures`:** 304/304 verified registry signatures; 114 verified provenance attestations.
+- **Lockfile:** `package-lock.json` is committed and currently contains 438 non-root dependency entries with integrity metadata. Reproducible installs use `npm ci`.
+- **Installed tree:** on 2026-08-18, `npm ls --all --parseable` exited 0 and returned 394 lines: the project root plus 393 installed package paths.
+- **`npm audit --json`:** connected verification on 2026-08-18 reported 0 vulnerabilities and 438 total dependency entries (`prod`: 105, `dev`: 334, `optional`: 49; npm's categories overlap, so they are not summed independently).
+- **`npm audit signatures`:** connected verification on 2026-08-18 audited 393 installed packages; all 393 had verified registry signatures and 183 had verified attestations.
+- **Initial audit baseline:** before Addendum A, the 2026-08-17 tree had 304 verified packages, 0 vulnerabilities, 304/304 verified signatures, and 114 verified attestations.
 - **Historical exposure, now closed:** `eslint@10.8.1 → debug ^4.3.2` would have resolved the malicious `debug@4.4.2` during its ~2-hour window on 2025-09-08 under an unlocked install. The committed lockfile is the control that closes this class.
 - **Watch item (no action):** `vitest` depends on `obug` (a `debug` fork by `sxzz`, first published 2025-11-11) — clean in OSV, provenance-attested, legitimate; recorded because young forks adjacent to famous names are plausible future impersonation targets.
 
@@ -300,7 +317,7 @@ Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cl
 | Risk                          | Detail                                                                            | Mitigation in place                                                                                                                                    |
 | ----------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Solo-publisher packages       | `zod`, `date-fns`, `clsx`, `tailwind-merge`, `msw`, `eslint-plugin-react-refresh` | Four of six use OIDC trusted publishing with provenance (`date-fns`, `clsx` do not); exact pins + lockfile prevent silent uptake of a hijacked release |
-| No provenance attestation     | 15 of 32 releases, incl. `typescript`, `prettier`, `eslint` (§5.6)                | All are institutionally published (Microsoft/OpenJS/Meta bots) or long-established accounts; signatures still verified via `npm audit signatures`      |
+| No provenance attestation     | 17 of 36 direct releases (§5.6)                                                   | Institutional publishers or long-established accounts, exact pins, and verified registry signatures reduce—but do not eliminate—the risk               |
 | Dormant high-download package | `clsx` — no release in 2+ years                                                   | Artifact read in full (8.5 KB, no I/O); pinned exactly                                                                                                 |
 | Provenance ceiling            | SLSA-attested malware exists (TanStack wave)                                      | Provenance treated as origin evidence only; changelog-to-artifact verification performed instead                                                       |
 | Advisory velocity             | `react-router` (~10 advisories 2025–26), `vitest` 4.x (4 critical)                | Pinned at patched floors (§5.2); keep current within these lines on every bump                                                                         |
@@ -309,7 +326,7 @@ Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cl
 ## 11. Hardening roadmap (optional, not yet applied)
 
 1. **`min-release-age` cooldown** (`.npmrc`, npm ≥11.10, value in days): refuses versions younger than the threshold. Every fast-response incident in §8 was pulled within hours; a 24-hour gate neutralizes the smash-and-grab class. Trade-off: delays legitimate hotfixes equally.
-2. **`ignore-scripts=true` with an explicit allowlist:** blocks the dominant execution vector. Trade-off: breaks msw's worker-refresh hook (run `npx msw init` manually) and native-build packages; and does not stop bundle-resident payloads (chalk/debug pattern).
+2. **`ignore-scripts=true` with an explicit allowlist:** blocks the dominant execution vector. Trade-off: breaks msw's worker-refresh hook and native-build packages, and does not stop bundle-resident payloads (chalk/debug pattern). After `npm ci`, regenerate the worker only with the audited local CLI: `npm exec --offline -- msw init public`. If local dependencies are unavailable, stop; never download an ad hoc MSW version or edit the generated worker.
 3. **`npm audit signatures` in CI** on every install, as tamper-detection between build and registry.
 4. **Renovate/Dependabot with minor-only update PRs** to operationalize the deliberate-upgrade policy (§3.1.4).
 
@@ -322,7 +339,7 @@ Also checked, no overlap: `node-ipc` (May 2026), SAP CAP / `@antv` / `@redhat-cl
 
 ## 13. References
 
-Primary sources: the npm registry (dependency manifests, `dist` integrity/attestation records, publish timestamps) and the OSV.dev query API (per-package/per-version advisory checks for all 32 pairs plus nine positive controls).
+Primary sources: the npm registry (dependency manifests, `dist` integrity/attestation records, publish timestamps) and the OSV.dev query API. The initial audit queried its 32 pairs plus nine positive controls; Addendum A records equivalent follow-up checks for the four later additions.
 
 Incident reporting and vendor analysis:
 [CISA alert (Shai-Hulud)](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem) · [CERT/CC VU#534320](https://www.kb.cert.org/vuls/id/534320) · [Datadog: Shai-Hulud 2.0](https://securitylabs.datadoghq.com/articles/shai-hulud-2.0-npm-worm/) · [Datadog IOC repository](https://github.com/DataDog/indicators-of-compromise/tree/main/shai-hulud-2.0) · [Wiz: Shai-Hulud 2.0](https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack) · [Microsoft: Shai-Hulud 2.0 guidance](https://www.microsoft.com/en-us/security/blog/2025/12/09/shai-hulud-2-0-guidance-for-detecting-investigating-and-defending-against-the-supply-chain-attack/) · [Wiz: chalk/debug](https://www.wiz.io/blog/widespread-npm-supply-chain-attack-breaking-down-impact-scope-across-debug-chalk) · [Semgrep: chalk/debug](https://semgrep.dev/blog/2025/chalk-debug-and-color-on-npm-compromised-in-new-supply-chain-attack/) · [Socket: Prettier tooling phish](https://socket.dev/blog/npm-phishing-campaign-leads-to-prettier-tooling-packages-compromise) · [Google GTIG: axios](https://cloud.google.com/blog/topics/threat-intelligence/north-korea-threat-actor-targets-axios-npm-package) · [Microsoft: axios mitigation](https://www.microsoft.com/en-us/security/blog/2026/04/01/mitigating-the-axios-npm-supply-chain-compromise/) · [Wiz: keyv/cacheable](https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack) · [Socket: Bitwarden CLI](https://socket.dev/blog/bitwarden-cli-compromised) · [Socket: React/Vue/Vite typosquats](https://socket.dev/blog/malicious-npm-packages-target-react-vue-and-vite-ecosystems-with-destructive-payloads) · [ViteVenom / PolinRider](https://opensourcemalware.com/blog/polinrider-jumps-the-fence) · [Unit 42: npm threat landscape tracker](https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/) · [Datadog: React2Shell](https://securitylabs.datadoghq.com/articles/cve-2025-55182-react2shell-remote-code-execution-react-server-components/) · [GitHub: npm security roadmap](https://github.blog/security/supply-chain-security/our-plan-for-a-more-secure-npm-supply-chain/) · [npm trusted publishers](https://docs.npmjs.com/trusted-publishers/) · [pnpm supply-chain security](https://pnpm.io/supply-chain-security)
@@ -338,7 +355,7 @@ Unstyled, accessible UI component primitives (Radix UI), developed by the WorkOS
 - **Registry:** published 2026-07-24 (24 days old); registry `latest`; maintainers `chancestrickland` + `mark-workos` (2).
 - **Provenance:** SLSA v1 attestation present. **Install scripts:** none (dev-only scripts).
 - **Advisories:** OSV query returns empty — no advisory at this or any version.
-- **Tree impact:** +74 packages (internal `@radix-ui/*` workspace packages), total 379. Post-install `npm audit`: 0 vulnerabilities; `npm audit signatures`: all packages verified, 179 attested.
+- **Tree impact at this addendum step:** +74 packages (internal `@radix-ui/*` workspace packages), bringing the then-installed tree to 379 packages. Post-install `npm audit`: 0 vulnerabilities; `npm audit signatures`: all packages verified, 179 attested.
 - **Note:** brings the runtime direct-dependency count to 13 and adds the largest transitive surface of any runtime dependency in the project; all of it is same-monorepo Radix code.
 
 **`react-hook-form@7.85.0` — 🟡 Approve with notes** (runtime; added 2026-08-17)
@@ -347,7 +364,7 @@ Form state management. §4 checks at install time: 9 days old on an unbroken wee
 
 **`@hookform/resolvers@5.9.0` — 🟡 Approve with notes** (runtime; added 2026-08-17)
 
-Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. The 5.9.0→5.9.1 tarball diff was read anyway — a one-line field-path regex fix repeated across its bundle formats, benign — so bumping to 5.9.1 via the normal deliberate-upgrade flow is pre-cleared once it has settled. No advisisories at any version; no install scripts; note the project's rapid-fire release style (e.g. 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
+Bridges react-hook-form to zod schemas. Deliberately pinned at 5.9.0 rather than 5.9.1: 5.9.1 was published **hours before** this install (2026-08-17 07:36 UTC), inside the recency window this project treats as highest-risk. The 5.9.0→5.9.1 tarball diff was read anyway — a one-line field-path regex fix repeated across its bundle formats, benign — so bumping to 5.9.1 via the normal deliberate-upgrade flow is pre-cleared once it has settled. No advisories at any version; no install scripts; note the project's rapid-fire release style (for example, 9 patches within ~30 hours in July 2026) as a cadence baseline, not an anomaly.
 
 **`@vitest/coverage-v8@4.1.10` — 🟢 Approve** (dev; added 2026-08-17)
 
@@ -356,18 +373,19 @@ V8 code-coverage provider for Vitest, from the Vitest core team — the same alr
 - **Registry:** published 2026-07-06 (six weeks before adoption, same day as `vitest@4.1.10`); maintainers `ariperkkio`, `antfu`, `hiogawa`, `oreanno`, `yyx990803` (5).
 - **Provenance:** attestation present. **Install scripts:** none (the package's `scripts` are the maintainers' own `dev`/`build`; nothing executes on consumer install).
 - **Advisories:** OSV returns empty for the package **and for each of its 10 direct dependencies** (no advisory at any version), including the unfamiliar `obug` — verified as a TypeScript/ESM fork of `debug` maintained by sxzz (Kevin Deng, Vue core team).
-- **Tree impact:** +13 packages (the istanbul reporting family, `@bcoe/v8-coverage`, `ast-v8-to-istanbul`, `magicast`, `obug`), total 394.
+- **Tree impact at this addendum step:** +13 packages (the istanbul reporting family, `@bcoe/v8-coverage`, `ast-v8-to-istanbul`, `magicast`, `obug`), bringing the then-installed tree to 394 packages including the project root.
 - **Note:** dev-only, loaded solely by `npm run test:coverage`; unreachable from the production bundle.
 
-Post-install tree state: 394 packages, `npm audit` 0 vulnerabilities, `npm audit signatures`: 393 verified registry signatures, 183 verified attestations.
+Addendum-era post-install state (2026-08-17): 394 `npm ls --parseable` lines including the project root, `npm audit` 0 vulnerabilities, and `npm audit signatures` 393 verified registry signatures / 183 verified attestations. The fresh revision-7 accounting is in §9.
 
 ## Revision history
 
-| Rev | Date       | Change                                                                                                                                                                           |
-| --- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | 2026-08-17 | Initial audit report compiled from the 7-agent workflow output (32 packages + ecosystem sweep)                                                                                   |
-| 2   | 2026-08-17 | Corrections: audit-artifact files misidentified as vendored tarballs; manifest migrated from `~` ranges to exact pins (`save-exact=true`)                                        |
-| 3   | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons |
-| 4   | 2026-08-17 | Addendum A: `radix-ui@1.6.7` added to the runtime dependencies after §4-equivalent checks                                                                                        |
-| 5   | 2026-08-17 | Addendum A: `react-hook-form@7.85.0` (noting the 7.73.0 malicious-release incident history) and `@hookform/resolvers@5.9.0` (5.9.1 skipped for recency) added                    |
-| 6   | 2026-08-18 | Addendum A: `@vitest/coverage-v8@4.1.10` (dev) added after §4-equivalent checks incl. an OSV batch sweep of all its direct dependencies                                          |
+| Rev | Date       | Change                                                                                                                                                                              |
+| --- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 2026-08-17 | Initial audit report compiled from the 7-agent workflow output (32 packages + ecosystem sweep)                                                                                      |
+| 2   | 2026-08-17 | Corrections: audit-artifact files misidentified as vendored tarballs; manifest migrated from `~` ranges to exact pins (`save-exact=true`)                                           |
+| 3   | 2026-08-17 | Full editorial restructure into this document; added post-install tree verification (lockfile, `npm audit`, signature verification), stack rationale, and threat-pattern lessons    |
+| 4   | 2026-08-17 | Addendum A: `radix-ui@1.6.7` added to the runtime dependencies after §4-equivalent checks                                                                                           |
+| 5   | 2026-08-17 | Addendum A: `react-hook-form@7.85.0` (noting the 7.73.0 malicious-release incident history) and `@hookform/resolvers@5.9.0` (5.9.1 skipped for recency) added                       |
+| 6   | 2026-08-18 | Addendum A: `@vitest/coverage-v8@4.1.10` (dev) added after §4-equivalent checks incl. an OSV batch sweep of all its direct dependencies                                             |
+| 7   | 2026-08-18 | Reconciled the current 36-package verdicts and RHF history; added fresh Node/npm, lockfile, vulnerability, signature, and attestation evidence while preserving initial-audit facts |

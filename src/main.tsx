@@ -1,11 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@/App';
+import { env } from '@/consts/env';
 import '@/consts/i18n';
 import '@/styles/index.css';
 
 async function enableMocking() {
-  if (!import.meta.env.DEV || import.meta.env.VITE_ENABLE_MOCKS !== 'true') {
+  if (!import.meta.env.DEV || env.VITE_ENABLE_MOCKS !== 'true') {
     return;
   }
 

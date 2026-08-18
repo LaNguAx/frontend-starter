@@ -41,13 +41,24 @@ features exist. New features are built alongside it by copying its shape.
 
 ## Testing
 
-Tests live in `src/tests/features/counter/`, mirroring this folder (never colocated):
+Component implementation files and tests named after those components use PascalCase. All
+other files use kebab-case. Tests live under `src/tests/`; feature tests are flattened under
+`src/tests/features/<feature>/` to match the permanent examples. Tests may import
+feature-private components directly; production code outside the feature may not.
+
+For this feature, the flattened test files are:
 
 - `counter-slice.test.ts` — reducers as pure functions (`reducer(state, action)` in, new state
   out) covering behavior **and** the business rules (clamping, reset); selector tests including
   proof of memoization via the wrapped selector's `.unwrapped` reselect instance.
 - `Counter.test.tsx` — user-visible behavior through `renderWithProviders` (fresh store per
   test): click flows, step interaction, reset.
+
+Use `renderWithProviders` for Redux-only components. If a component needs data-router context,
+use `renderWithRouterAndProviders` with route objects and optional `initialEntries`; both
+helpers create a fresh store. `@testing-library/jest-dom` and
+`@testing-library/user-event` are intentionally absent. Use Vitest core matchers and Testing
+Library's `fireEvent` unless a separately approved dependency change adds them.
 
 ## Conventions
 

@@ -13,11 +13,12 @@ dist-ssr
 coverage
 *.local
 
-# Environment files — real values never enter git.
-# Committed on purpose: .env.example (documentation), .env.mock (public mock flag)
-.env
-.env.development
-.env.production
+# Environment files are default-deny so real values never enter git.
+# Only these public fixtures are committed on purpose.
+.env*
+!.env.example
+!.env.mock
+!.env.test
 
 # Editor directories and files
 .vscode/*
@@ -30,4 +31,3 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-.vscode
