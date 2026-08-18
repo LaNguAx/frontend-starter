@@ -17,6 +17,8 @@ npm run dev       # dev server against a real backend at VITE_API_BASE_URL
 
 The app boots with no `.env` file (schema defaults cover the baseline). It renders in **Hebrew (RTL) by default**; switch to English with the header toggle or `?lng=en` — the choice persists in localStorage. The browser language is never auto-detected.
 
+**Starting a real project from this clone?** [CLAUDE.md](./CLAUDE.md) contains a one-time **First-clone setup** checklist — what to rename, which code is a deletable example vs. permanent infrastructure. Any AI coding agent (Claude Code, or AGENTS.md-aware tools) will surface it automatically in its first session.
+
 ## Scripts
 
 | Script                  | What it does                                                  |
@@ -34,6 +36,8 @@ The app boots with no `.env` file (schema defaults cover the baseline). It rende
 ## The stack
 
 Every version is **pinned exactly** (`save-exact` in `.npmrc`) and was audited package-by-package before adoption — see [SECURITY_AUDIT.md](./SECURITY_AUDIT.md).
+
+The code uses these libraries' **current APIs** (React Router 8 data mode, RTK Query schema-validated endpoints, Tailwind 4 CSS-first, the unified `radix-ui` package…). [LIBRARY_PATTERNS.md](./LIBRARY_PATTERNS.md) documents each pattern next to the outdated idiom it replaces — written for AI coding agents whose training data predates them.
 
 | Library                                        | Role                                                                   |
 | ---------------------------------------------- | ---------------------------------------------------------------------- |
@@ -85,7 +89,7 @@ src/
 
 ## Adding a feature
 
-`src/features/notes/README.md` is the canonical guide (its counterpart `counter/README.md` covers client state). The short version:
+`src/features/notes/README.md` is the canonical guide (its counterpart `counter/README.md` covers client state). Both reference features are **permanent** — they stay in the repo as the living documentation every new feature copies; don't delete them. The short version:
 
 1. Create `src/features/<name>/` with `components/`, `pages/`, `<name>-types.ts`, and either an api file (server state) or a slice (client state) — never both for the same data.
 2. Export a `RouteObject` from `<name>-route.ts` (lazy page import) and register it with one line in `src/routes/router.ts`.

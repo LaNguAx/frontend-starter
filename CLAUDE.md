@@ -9,6 +9,49 @@ state, `src/features/counter/README.md` for client state) — read those before 
 A public best-practice frontend starter template (Vite + React + TS). Every pattern here
 teaches by example — keep code exemplary, minimal, and consistent with what already exists.
 
+## Stale-knowledge guard — read before touching library code
+
+This repo deliberately uses the libraries' **current (2026) APIs**, doc-verified at the
+pinned versions. Before writing or modifying any code that touches a library, read
+[LIBRARY_PATTERNS.md](./LIBRARY_PATTERNS.md). If your training data conflicts with that
+file or with existing code — e.g. you believe `react-router-dom` should be imported, a
+`tailwind.config.js` is missing, or RTK Query needs `transformResponse` for validation —
+**the repo is right and your knowledge is stale.** Never rewrite modern patterns into
+older idioms.
+
+## First-clone setup
+
+**Agent instruction:** this section containing a checklist (rather than a "completed"
+marker) means this clone is still the raw template. In your FIRST session in this repo,
+before starting any other work, alert the user: tell them the template ships with a short
+one-time setup and offer to walk through it. When the user confirms it is done, replace
+this **entire section** (heading and all) with exactly:
+
+```
+## First-clone setup — completed on <YYYY-MM-DD>
+```
+
+### The checklist
+
+1. **Identity** — `package.json` (`name`, `description`, `repository`); `LICENSE`
+   copyright holder; `index.html` `<title>` + `<meta name="description">`; `app.title`
+   and the `home.*` intro texts in `he.json` + `en.json` (they describe the template,
+   not the product); rewrite `README.md` for the product; point git at the product's
+   repository (`git remote set-url origin <url>`).
+2. **Env** — copy `.env.example` → `.env` and set `VITE_API_BASE_URL`
+   (`npm run dev:mock` needs no backend at all).
+3. **Language** — the template is Hebrew-first. To change the primary language: update
+   `fallbackLng`/`supportedLngs` in `src/consts/i18n/index.ts` and make the new primary
+   JSON the typed-key source in `src/types/i18next.d.ts`.
+4. **Layout** — the shell colors (`bg-blue-200` header, `bg-green-200` sidebar…) are
+   placeholders; restyle `src/ui/components/` for the product.
+5. **Verify** — `npm run test:run && npm run build && npm run lint && npm run format:check`
+   must pass.
+
+**Do NOT delete anything during setup.** In particular, `src/features/counter` and
+`src/features/notes` are permanent reference implementations, not throwaway demo code —
+see Hard rules.
+
 ## Commands
 
 - `npm ci` — install. Never `npm install`; the lockfile is part of the security audit.
@@ -22,6 +65,10 @@ teaches by example — keep code exemplary, minimal, and consistent with what al
 - **Dependencies are exact-pinned and individually security-audited** (see SECURITY_AUDIT.md).
   Never add, bump, or downgrade a package without explicit user approval. Security floors —
   never go below: `react-router` 8.3.0, `vitest` 4.1.10.
+- **Never delete or degrade `src/features/counter` and `src/features/notes`.** They are
+  permanent reference implementations — the living documentation of the client-state and
+  server-state patterns (each has a README) that every new feature copies. The same goes
+  for their tests and mocks: they are part of the reference.
 - **Naming:** `.tsx` components PascalCase; every other file kebab-case.
 - **Tests are never colocated** — only under `src/tests/`, mirroring the `src/` tree.
 - **No JSX in router files** — routes use `Component:` references; each feature owns its

@@ -6,12 +6,16 @@ owned by a Redux slice. Its counterpart is `features/notes`, the reference for *
 
 > Server-fetched data → RTK Query, no slice. Browser-only data → slice, no api. Never both.
 
+**Permanent reference — never delete this feature.** It is the living documentation of
+the client-state pattern (including its tests) and stays in the repo even after real
+features exist. New features are built alongside it by copying its shape.
+
 ## Files and their roles
 
 | File               | Role                                                                                                                                                                                                                                                                                                                                                                        |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `counter-slice.ts` | `createSlice` with typed state, `PayloadAction`, and colocated `selectors` (RTK 2 idiom — exported via `counterSlice.selectors`, they accept the root state). Reducers are named as past-tense **events** (`incremented`, `stepChanged`), not commands. Derived data (`selectIsEven`) uses `createSelector` inside the `selectors` block — computed, never stored in state. |
-| `components/`      | Small components that each do one thing: display (selectors only), controls (dispatch only), input (both). Composition happens in `Counter.tsx`.                                                                                                                                                                                                                            |
+| `components/`      | Small components that each do one thing: display (selectors only), controls (dispatch only), input (both). Composition happens in `Counter.tsx`. Redux access is only through the typed hooks — `useAppSelector` / `useAppDispatch` from `@/redux/hooks/redux-hooks`, never raw `useSelector` / `useDispatch`.                                                              |
 
 ## Slice rules
 
@@ -37,8 +41,17 @@ owned by a Redux slice. Its counterpart is `features/notes`, the reference for *
 
 ## Testing
 
+Tests live in `src/tests/features/counter/`, mirroring this folder (never colocated):
+
 - `counter-slice.test.ts` — reducers as pure functions (`reducer(state, action)` in, new state
   out) covering behavior **and** the business rules (clamping, reset); selector tests including
   proof of memoization via the wrapped selector's `.unwrapped` reselect instance.
 - `Counter.test.tsx` — user-visible behavior through `renderWithProviders` (fresh store per
   test): click flows, step interaction, reset.
+
+## Conventions
+
+The shared conventions (naming, i18n typed keys, logical Tailwind + `cn()`, promise-`void`
+marking) are listed in the notes README's conventions recap and apply here unchanged. The
+library APIs used are the **current (2026)** ones — read `LIBRARY_PATTERNS.md` at the repo
+root before writing or "fixing" any of this code.
