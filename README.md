@@ -96,7 +96,7 @@ src/
 - **RTL-safe styling:** Tailwind logical utilities only (`ps-*`, `text-start`), never physical (`pl-*`, `text-left`).
 - **No hardcoded user-facing text** — everything goes through `t()` with typed keys; Hebrew (`he.json`) is the primary language and the typed-key source.
 - **Feature isolation:** a feature may import from `@/redux`, `@/consts`, `@/utils`, `@/ui` — never from another feature's internals.
-- Auto-imports use the `@/` alias (workspace setting in `.vscode/settings.json`).
+- Imports use the `@/` alias.
 
 ## Adding a feature
 
